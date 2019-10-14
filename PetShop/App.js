@@ -1,9 +1,18 @@
 import React, {Component} from 'react';
-import Home from './screens/Home';
+import {View} from 'react-native';
+import Login from './screens/Login';
+import Header from './components/Form/Header';
+import Input from './components/Form/Input';
 
 class App extends Component {
   render() {
-    return <Home />;
+    return (
+      // <View>
+      //   <Header setText="Login" />
+      //   <Input placeholder="Email" />
+      // </View>
+      <Login />
+    );
   }
 }
 

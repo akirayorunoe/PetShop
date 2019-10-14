@@ -17,6 +17,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* PetShopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PetShopTests.m */; };
 		2E5D5A6D93074FA792910F8A /* Lobster-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D63EF06EC7C4F81AEBDE70A /* Lobster-Regular.ttf */; };
 		31910419A1F7427AA8C8A32C /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83699799E18C462B98D3734A /* Roboto-Regular.ttf */; };
+		77ABBDB0D33244528B410FC4 /* LobsterTwo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 181297F35534488E9AC7B0F9 /* LobsterTwo-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		7D63EF06EC7C4F81AEBDE70A /* Lobster-Regular.ttf */ = {isa = PBXFileReference; name = "Lobster-Regular.ttf"; path = "../assets/fonts/Lobster-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		83699799E18C462B98D3734A /* Roboto-Regular.ttf */ = {isa = PBXFileReference; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		181297F35534488E9AC7B0F9 /* LobsterTwo-Regular.ttf */ = {isa = PBXFileReference; name = "LobsterTwo-Regular.ttf"; path = "../assets/fonts/LobsterTwo-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 			children = (
 				7D63EF06EC7C4F81AEBDE70A /* Lobster-Regular.ttf */,
 				83699799E18C462B98D3734A /* Roboto-Regular.ttf */,
+				181297F35534488E9AC7B0F9 /* LobsterTwo-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				2E5D5A6D93074FA792910F8A /* Lobster-Regular.ttf in Resources */,
 				31910419A1F7427AA8C8A32C /* Roboto-Regular.ttf in Resources */,
+				77ABBDB0D33244528B410FC4 /* LobsterTwo-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

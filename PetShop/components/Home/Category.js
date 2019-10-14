@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, View, Image} from 'react-native';
+import {FlatList, View} from 'react-native';
 import flatListData from '../../data/flatListData';
 import FlatListItems from './FlatListItems';
 

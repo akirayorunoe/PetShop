@@ -5,11 +5,11 @@ export default class FlatListItems extends Component {
     super(props);
   }
   render() {
-    //   console.log(
-    //     this.props.item.item.source,
-    //     this.props,
-    //     typeof this.props.item.item.source,
-    //   );
+    // console.log(
+    //   this.props.item.item.source,
+    //   this.props,
+    //   typeof this.props.item.item.source,
+    // );
     return (
       <TouchableOpacity style={styles.container}>
         <Image source={this.props.item.item.source}></Image>
