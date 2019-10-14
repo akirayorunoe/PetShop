@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import Header from '../components/Header';
-import Category from '../components/Category';
+import {View, StyleSheet} from 'react-native';
+import Header from '../components/Home/Header';
+import Category from '../components/Home/Category';
 export default class Home extends Component {
   render() {
     return (

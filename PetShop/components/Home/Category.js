@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FlatList, View, Image} from 'react-native';
-import flatListData from '../data/flatListData';
+import flatListData from '../../data/flatListData';
 import FlatListItems from './FlatListItems';
 
 export default class Category extends Component {
