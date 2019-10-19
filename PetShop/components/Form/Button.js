@@ -8,7 +8,7 @@ export default class Button extends Component {
   render() {
     return (
       <TouchableOpacity style={styles.container}>
-        <Text>{this.props.setText}</Text>
+        <Text style={styles.child}>{this.props.setText}</Text>
       </TouchableOpacity>
     );
   }
@@ -23,4 +23,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#E4947B',
     alignItems: 'center',
   },
+  child: {fontFamily: 'LobsterTwo-Regular', fontSize: 25},
 });

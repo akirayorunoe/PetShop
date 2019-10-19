@@ -26,5 +26,5 @@ const styles = StyleSheet.create({
     height: 50,
     marginVertical: 8,
   },
-  child: {fontFamily: 'LobsterTwo-Regular'},
+  child: {fontFamily: 'Roboto'},
 });

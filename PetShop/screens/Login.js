@@ -14,9 +14,25 @@ export default class Login extends Component {
             <Input placeholder="Password" textContentType="password" />
             <View style={styles.child1}>
               <Button setText="Sign in" />
-              <TouchableOpacity style={{alignSelf: 'flex-end'}}>
-                <Text>Forgot your password?</Text>
+              <TouchableOpacity style={{top: 10, alignItems: 'flex-end'}}>
+                <Text
+                  style={{
+                    fontFamily: 'LobsterTwo-Regular',
+                  }}>
+                  Forgot your password?
+                </Text>
               </TouchableOpacity>
+              <View style={{top: 80}}>
+                <Button setText="Sign up" />
+                <Text
+                  style={{
+                    top: 40,
+                    textAlign: 'center',
+                    fontFamily: 'LobsterTwo-Regular',
+                  }}>
+                  Or with other social account
+                </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -32,9 +48,9 @@ const styles = StyleSheet.create({
   },
   child: {
     alignItems: 'center',
-    top: 90,
+    top: 30,
   },
   child1: {
-    top: 32,
+    top: 30,
   },
 });
