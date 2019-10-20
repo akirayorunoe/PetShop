@@ -1,18 +1,8 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
-import Login from './screens/Login';
-import Header from './components/Form/Header';
-import Input from './components/Form/Input';
-
+import Nav1 from './navigator/TabNav';
 class App extends Component {
   render() {
-    return (
-      // <View>
-      //   <Header setText="Login" />
-      //   <Input placeholder="Email" />
-      // </View>
-      <Login />
-    );
+    return <Nav1 />;
   }
 }
 

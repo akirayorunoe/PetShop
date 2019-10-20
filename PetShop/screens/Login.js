@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  ScrollView,
+} from 'react-native';
 import Header from '../components/Form/Header';
 import Input from '../components/Form/Input';
 import Button from '../components/Form/Button';
