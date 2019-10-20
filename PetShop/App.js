@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import Nav1 from './navigator/TabNav';
+import TNav from './navigator/TabNav';
 //Add nav as component here
 class App extends Component {
   render() {
-    return <Nav1 />;
+    return <TNav />;
   }
 }
 

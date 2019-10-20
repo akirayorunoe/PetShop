@@ -29,7 +29,10 @@ export default class Login extends Component {
                 </Text>
               </TouchableOpacity>
               <View style={{top: 80}}>
-                <Button setText="Sign up" />
+                <Button
+                  setText="Sign up"
+                  onPress={() => this.props.navigation.navigate('SignUp')}
+                />
                 <Text
                   style={{
                     top: 40,

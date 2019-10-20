@@ -1,10 +1,10 @@
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Home from '../screens/Home';
-import Login from '../screens/Login';
+//import Login from '../screens/Login';
 import Cart from '../screens/Cart';
 import Search from '../screens/Search';
-
+import stackNav from './StackNav';
 //create Tab Nav
 const FirstNavGroup = createBottomTabNavigator(
   {
@@ -18,7 +18,7 @@ const FirstNavGroup = createBottomTabNavigator(
       screen: Cart,
     },
     Login: {
-      screen: Login,
+      screen: stackNav,
     },
   },
   {
