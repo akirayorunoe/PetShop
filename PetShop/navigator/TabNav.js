@@ -15,7 +15,7 @@ const FirstNavGroup = createBottomTabNavigator(
       navigationOptions: ({navigation}) => ({
         tabBarIcon: ({focused, tintColor}) => {
           return (
-            <Icon name="home" size={35} color={focused ? 'black' : 'white'} />
+            <Icon name="home" size={30} color={focused ? 'black' : 'white'} />
           );
         },
       }),
@@ -25,7 +25,7 @@ const FirstNavGroup = createBottomTabNavigator(
       navigationOptions: ({navigation}) => ({
         tabBarIcon: ({focused, tintColor}) => {
           return (
-            <Icon name="search" size={35} color={focused ? 'black' : 'white'} />
+            <Icon name="search" size={30} color={focused ? 'black' : 'white'} />
           );
         },
       }),
@@ -37,7 +37,7 @@ const FirstNavGroup = createBottomTabNavigator(
           return (
             <Icon
               name="shopping-cart"
-              size={35}
+              size={30}
               color={focused ? 'black' : 'white'}
             />
           );
@@ -49,7 +49,7 @@ const FirstNavGroup = createBottomTabNavigator(
       navigationOptions: ({navigation}) => ({
         tabBarIcon: ({focused, tintColor}) => {
           return (
-            <Icon name="user" size={35} color={focused ? 'black' : 'white'} />
+            <Icon name="user" size={30} color={focused ? 'black' : 'white'} />
           );
         },
       }),
