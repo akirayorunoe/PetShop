@@ -8,7 +8,7 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.child}>
-          <Header setText="LOGIN" />
+          <Header setText="LOGIN " />
           <View style={styles.child1}>
             <Input placeholder="Email" />
             <Input placeholder="Password" textContentType="password" />
@@ -20,6 +20,7 @@ export default class Login extends Component {
                 <Text
                   style={{
                     fontFamily: 'LobsterTwo-Regular',
+                    textDecorationLine: 'underline',
                   }}>
                   Forgot your password?
                 </Text>

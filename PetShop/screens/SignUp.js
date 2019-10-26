@@ -12,8 +12,8 @@ export default class SignUp extends Component {
           <View style={styles.child}>
             <Input placeholder="Name" />
             <Input placeholder="Email" />
-            <Input placeholder="Password" />
-            <Input placeholder="Re-enter Password" />
+            <Input placeholder="Password" textContentType="password" />
+            <Input placeholder="Re-enter Password" textContentType="password" />
             <View style={styles.child1}>
               <Button setText="Sign Up" />
               <Text

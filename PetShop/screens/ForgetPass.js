@@ -8,7 +8,6 @@ export default class ForgetPass extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.child}>
-          {/* <Header setText="FORGOT PASSWORD" /> */}
           <Text
             style={{
               top: 30,
@@ -17,16 +16,16 @@ export default class ForgetPass extends Component {
               color: '#000000',
               fontSize: 40,
               textTransform: 'capitalize',
-            }}
-          >forget password</Text>
+            }}>
+            forget password
+          </Text>
           <Text
             style={{
               top: 50,
               fontFamily: 'LobsterTwo-Regular',
               fontSize: 18,
-              //paddingHorizontal: 20,
               paddingRight: 10,
-              paddingLeft: 20
+              paddingLeft: 20,
             }}>
             Please, enter your email address. You will receive a link to create
             a new password via email.
@@ -35,7 +34,7 @@ export default class ForgetPass extends Component {
             <View>
               <Input placeholder="Email" />
             </View>
-            <View style={{marginTop: 50}}>
+            <View style={{marginTop: 30}}>
               <Button setText="Send" />
             </View>
           </View>

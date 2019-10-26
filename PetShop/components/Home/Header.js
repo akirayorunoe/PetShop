@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     // Dùng để font chữ không bị cắt
     flex: 1,
     textAlign: 'center',
-    //
     fontFamily: 'Lobster-Regular',
     color: '#420000',
     fontSize: 45,
