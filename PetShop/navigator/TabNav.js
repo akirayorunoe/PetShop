@@ -6,7 +6,6 @@ import Cart from '../screens/Cart';
 import Search from '../screens/Search';
 import stackNav from './StackNav';
 import React from 'react';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 //create Tab Nav
 const FirstNavGroup = createBottomTabNavigator(
   {
