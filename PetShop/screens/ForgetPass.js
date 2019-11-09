@@ -10,7 +10,7 @@ export default class ForgetPass extends Component {
           <View style={styles.child}>
             <Text
               style={{
-                top: 30,
+                marginTop: 30,
                 textAlign: 'center',
                 fontFamily: 'Lobster-Regular',
                 color: '#000000',
@@ -21,7 +21,7 @@ export default class ForgetPass extends Component {
             </Text>
             <Text
               style={{
-                top: 50,
+                marginTop: 50,
                 fontFamily: 'LobsterTwo-Regular',
                 fontSize: 18,
                 paddingRight: 10,
@@ -30,7 +30,7 @@ export default class ForgetPass extends Component {
               Please, enter your email address. You will receive a link to
               create a new password via email.
             </Text>
-            <View style={{top: 70}}>
+            <View style={{marginTop: 70}}>
               <View>
                 <Input placeholder="Email" />
               </View>
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#F5F7FA'},
   child: {
     alignItems: 'center',
-    top: 30,
+    marginTop: 30,
   },
 });

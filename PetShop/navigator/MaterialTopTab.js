@@ -12,6 +12,7 @@ const materialTopTabNavigator = createMaterialTopTabNavigator(
   },
   {
     initialRouteName: 'Popular',
+    swipeEnabled: false,
     tabBarOptions: {
       tabStyle: {
         flexWrap: 'nowrap',

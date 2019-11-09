@@ -30,7 +30,7 @@ export default class SignUp extends Component {
                 <Button setText="Sign Up" />
                 <Text
                   style={{
-                    top: 50,
+                    marginTop: 50,
                     textAlign: 'center',
                     fontFamily: 'LobsterTwo-Regular',
                   }}>
@@ -40,7 +40,7 @@ export default class SignUp extends Component {
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
-                    top: 60,
+                    marginTop: 35,
                   }}>
                   <TouchableOpacity>
                     <Image
@@ -64,9 +64,9 @@ const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#F5F7FA'},
   child: {
     alignItems: 'center',
-    top: 30,
+    marginTop: 30,
   },
   child1: {
-    top: 30,
+    marginTop: 30,
   },
 });

@@ -14,7 +14,7 @@ export default class Login extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+        <ScrollView style={{flex: 1}}>
           <View style={styles.child}>
             <Header setText="LOGIN " />
             <View style={styles.child1}>
@@ -23,7 +23,7 @@ export default class Login extends Component {
               <View style={styles.child1}>
                 <Button setText="Sign in" />
                 <TouchableOpacity
-                  style={{top: 10, alignItems: 'flex-end'}}
+                  style={{marginTop: 10, alignItems: 'flex-end'}}
                   onPress={() => this.props.navigation.navigate('ForgetPass')}>
                   <Text
                     style={{
@@ -33,14 +33,14 @@ export default class Login extends Component {
                     Forgot your password?
                   </Text>
                 </TouchableOpacity>
-                <View style={{top: 80}}>
+                <View style={{marginTop: 80}}>
                   <Button
                     setText="Sign up"
                     onPress={() => this.props.navigation.navigate('SignUp')}
                   />
                   <Text
                     style={{
-                      top: 40,
+                      marginTop: 40,
                       textAlign: 'center',
                       fontFamily: 'LobsterTwo-Regular',
                     }}>
@@ -50,7 +50,7 @@ export default class Login extends Component {
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-around',
-                      top: 50,
+                      marginTop: 35,
                     }}>
                     <TouchableOpacity>
                       <Image
@@ -78,9 +78,9 @@ const styles = StyleSheet.create({
   },
   child: {
     alignItems: 'center',
-    top: 30,
+    marginTop: 30,
   },
   child1: {
-    top: 30,
+    marginTop: 30,
   },
 });
