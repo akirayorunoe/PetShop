@@ -8,7 +8,7 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
-          <Header />
+          <Header setText="PET SHOP" />
           <Category />
           <MaterialTopTabNav />
         </ScrollView>

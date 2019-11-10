@@ -2,10 +2,13 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, Image} from 'react-native';
 
 export default class Header extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>PET SHOP</Text>
+        <Text style={styles.header}>{this.props.setText}</Text>
       </View>
     );
   }
