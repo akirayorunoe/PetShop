@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
-
+import Header from '../components/Home/Header';
 export default class Fish extends Component {
   render() {
     return (

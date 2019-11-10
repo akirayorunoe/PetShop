@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
-
+import Header from '../components/Home/Header';
 export default class Cart extends Component {
   render() {
-    return <View style={styles.container}></View>;
+    return (
+      <View style={styles.container}>
+        <Header setText="YOUR CART" />
+      </View>
+    );
   }
 }
 
