@@ -32,7 +32,8 @@ export default class Search extends Component {
           inputContainerStyle={{
             backgroundColor: 'white',
             borderRadius: 20,
-            height: 36,
+            marginTop: 10,
+            marginHorizontal: 15,
           }}
         />
       </View>

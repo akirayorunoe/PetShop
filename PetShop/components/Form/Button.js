@@ -5,6 +5,7 @@ export default class Button extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     return (
       <TouchableOpacity style={styles.container} onPress={this.props.onPress}>

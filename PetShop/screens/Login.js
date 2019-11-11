@@ -12,6 +12,7 @@ import Input from '../components/Form/Input';
 import Button from '../components/Form/Button';
 export default class Login extends Component {
   render() {
+    //console.log(this.props.navigation);
     return (
       <View style={styles.container}>
         <ScrollView style={{flex: 1}}>

@@ -5,11 +5,12 @@ import Category from '../components/Home/Category';
 import MaterialTopTabNav from '../navigator/MaterialTopTab';
 export default class Home extends Component {
   render() {
+    //console.log(this.props.navigation);//phai them prop navigation vào prop cua category de category co the hieu dc
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <Header setText="PET SHOP" />
-          <Category />
+          <Category navigation={this.props.navigation} />
           <MaterialTopTabNav />
         </ScrollView>
       </View>

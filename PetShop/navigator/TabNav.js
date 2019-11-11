@@ -5,12 +5,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Cart from '../screens/Cart';
 import Search from '../screens/Search';
 import stackNav from './StackNav';
+import stackNavPet from './StackNavPet';
 import React from 'react';
 //create Tab Nav
 const FirstNavGroup = createBottomTabNavigator(
   {
     Home: {
-      screen: Home,
+      screen: stackNavPet,
       navigationOptions: ({navigation}) => ({
         tabBarIcon: ({focused, tintColor}) => {
           return (

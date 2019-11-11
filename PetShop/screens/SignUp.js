@@ -10,8 +10,53 @@ import {
 import Header from '../components/Form/Header';
 import Input from '../components/Form/Input';
 import Button from '../components/Form/Button';
+import {validateAll} from 'indicative/validator';
+import Axios from 'axios';
 //contentContainerStyle={{flexGrow: 1}} dùng để ngăn scroll view làm cắt màn hình
 export default class SignUp extends Component {
+  state = {
+    name: '',
+    email: '',
+    password: '',
+    password_confirm: '',
+    userData: '',
+    error: {},
+  };
+  registerUser = async data => {
+    const rules = {
+      name: 'require|string',
+      email: 'require|email',
+      password: 'require|string|min:6|confirmed',
+    };
+    const message = {
+      require: field => `${field} is required`,
+      'email.email': 'The email syntax is wrong',
+      'password.confirmed': 'The password did not match',
+      'password.min': 'password is too short',
+    };
+    try {
+      await validateAll(data, rules, message);
+      const response = await Axios.post(
+        'https://react-blog-api.bahdcasts.com/api/auth/register',
+        {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+      );
+      this.setState = {
+        userData: response,
+      };
+    } catch (errors) {
+      //
+      console.log('--------', errors);
+      const formatedErrors={}
+      errors.forEach(error =>  formatedErrors[error.field]=error.message);
+        this.setState({
+          error:formatedErrors
+        })
+    }
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -19,15 +64,35 @@ export default class SignUp extends Component {
           <View style={styles.child}>
             <Header setText="SIGN UP" />
             <View style={styles.child}>
-              <Input placeholder="Name" />
-              <Input placeholder="Email" />
-              <Input placeholder="Password" textContentType="password" />
               <Input
+                placeholder="Name"
+                value={this.state.name}
+                onChangeText={name => this.setState({name})}
+              />
+              <Input
+                placeholder="Email"
+                value={this.state.email}
+                onChangeText={email => this.setState({email})}
+              />
+              <Input
+                onChangeText={password => this.setState({password})}
+                placeholder="Password"
+                textContentType="password"
+                value={this.state.password}
+              />
+              <Input
+                onChangeText={password_confirm =>
+                  this.setState({password_confirm})
+                }
+                value={this.state.password_confirm}
                 placeholder="Re-enter Password"
                 textContentType="password"
               />
               <View style={styles.child1}>
-                <Button setText="Sign Up" />
+                <Button
+                  setText="Sign Up"
+                  onPress={() => this.registerUser(this.state)}
+                />
                 <Text
                   style={{
                     marginTop: 50,

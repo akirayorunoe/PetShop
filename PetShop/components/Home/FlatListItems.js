@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+
 export default class FlatListItems extends Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
         <Image source={this.props.item.item.source}></Image>
       </TouchableOpacity>
     );

@@ -4,7 +4,11 @@ import flatListData from '../../data/flatListData';
 import FlatListItems from './FlatListItems';
 
 export default class Category extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    console.log(this.props.navigation);
     return (
       <View>
         <FlatList
@@ -12,7 +16,13 @@ export default class Category extends Component {
           horizontal
           data={flatListData}
           renderItem={item => {
-            return <FlatListItems item={item}></FlatListItems>;
+            return (
+              <FlatListItems
+                item={item}
+                onPress={() =>
+                  this.props.navigation.navigate(`${item.item.key}`)
+                }></FlatListItems>
+            );
           }}></FlatList>
       </View>
     );

@@ -8,6 +8,8 @@ export default class Input extends Component {
     return (
       <View style={styles.container}>
         <TextInput
+          value={this.props.value}
+          onChangeText={this.props.onChangeText}
           textContentType={this.props.textContentType}
           secureTextEntry={
             this.props.textContentType === 'password' ? true : false
