@@ -20,12 +20,11 @@ export default class Login extends Component {
   loginUser = async data => {
     const rules = {
       Email: 'required|email',
-      Password: 'required|string|min:6',
+      Password: 'required|string',
     };
     const message = {
       required: field => `${field} is required`,
       email: 'The email syntax is wrong',
-      min: 'Password is too short',
     };
     try {
       await validateAll(data, rules, message);
