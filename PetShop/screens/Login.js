@@ -10,7 +10,34 @@ import {
 import Header from '../components/Form/Header';
 import Input from '../components/Form/Input';
 import Button from '../components/Form/Button';
+import {validateAll} from 'indicative/validator';
 export default class Login extends Component {
+  state = {
+    Email: '',
+    Password: '',
+    error: {},
+  };
+  loginUser = async data => {
+    const rules = {
+      Email: 'required|email',
+      Password: 'required|string|min:6',
+    };
+    const message = {
+      required: field => `${field} is required`,
+      email: 'The email syntax is wrong',
+      min: 'Password is too short',
+    };
+    try {
+      await validateAll(data, rules, message);
+    } catch (errors) {
+      console.log('--------', this.state, errors);
+      const formatedErrors = {};
+      errors.forEach(error => (formatedErrors[error.field] = error.message));
+      this.setState({
+        error: formatedErrors,
+      });
+    }
+  };
   render() {
     //console.log(this.props.navigation);
     return (
@@ -19,10 +46,34 @@ export default class Login extends Component {
           <View style={styles.child}>
             <Header setText="LOGIN " />
             <View style={styles.child1}>
-              <Input placeholder="Email" />
-              <Input placeholder="Password" textContentType="password" />
+              <Input
+                placeholder="Email"
+                value={this.state.Email}
+                onChangeText={Email => this.setState({Email})}
+              />
+              {//neu ve trai co thi thuc hien ve phai true & true
+              this.state.error['Email'] && (
+                <Text style={{color: 'red', alignSelf: 'flex-start'}}>
+                  * {this.state.error['Email']}
+                </Text>
+              )}
+              <Input
+                onChangeText={Password => this.setState({Password})}
+                placeholder="Password"
+                textContentType="password"
+                value={this.state.Password}
+              />
+              {//neu ve trai co thi thuc hien ve phai true & true
+              this.state.error['Password'] && (
+                <Text style={{color: 'red', alignSelf: 'flex-start'}}>
+                  * {this.state.error['Password']}
+                </Text>
+              )}
               <View style={styles.child1}>
-                <Button setText="Sign in" />
+                <Button
+                  setText="Sign in"
+                  onPress={() => this.loginUser(this.state)}
+                />
                 <TouchableOpacity
                   style={{marginTop: 10, alignItems: 'flex-end'}}
                   onPress={() => this.props.navigation.navigate('ForgetPass')}>
@@ -85,3 +136,17 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
+
+// var firebaseConfig = {
+//   apiKey: "AIzaSyAmiWIlknJsCkSpQVV-Slz-952v4i_sqaY",
+//   authDomain: "react-native-petshop.firebaseapp.com",
+//   databaseURL: "https://react-native-petshop.firebaseio.com",
+//   projectId: "react-native-petshop",
+//   storageBucket: "react-native-petshop.appspot.com",
+//   messagingSenderId: "354808018058",
+//   appId: "1:354808018058:web:2e311d9879a1bc82906973",
+//   measurementId: "G-KHDV065P45"
+// };
+// // Initialize Firebase
+// firebase.initializeApp(firebaseConfig);
+// firebase.analytics();

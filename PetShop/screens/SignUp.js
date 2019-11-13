@@ -15,46 +15,46 @@ import Axios from 'axios';
 //contentContainerStyle={{flexGrow: 1}} dùng để ngăn scroll view làm cắt màn hình
 export default class SignUp extends Component {
   state = {
-    name: '',
-    email: '',
-    password: '',
-    password_confirm: '',
-    userData: '',
+    Name: '',
+    Email: '',
+    Password: '',
+    //phai la _confirmation de validator hieu
+    Password_confirmation: '',
+    UserData: '',
     error: {},
   };
   registerUser = async data => {
     const rules = {
-      name: 'require|string',
-      email: 'require|email',
-      password: 'require|string|min:6|confirmed',
+      Name: 'required|string',
+      Email: 'required|email',
+      Password: 'required|string|min:6|confirmed',
     };
     const message = {
-      require: field => `${field} is required`,
-      'email.email': 'The email syntax is wrong',
-      'password.confirmed': 'The password did not match',
-      'password.min': 'password is too short',
+      required: field => `${field} is required`,
+      email: 'The email syntax is wrong',
+      min: 'Password is too short',
+      confirmed: 'The password did not match',
     };
     try {
       await validateAll(data, rules, message);
-      const response = await Axios.post(
-        'https://react-blog-api.bahdcasts.com/api/auth/register',
-        {
-          name: data.name,
-          email: data.email,
-          password: data.password,
-        },
-      );
-      this.setState = {
-        userData: response,
-      };
+      // const response = await Axios.post(
+      //   'https://react-blog-api.bahdcasts.com/api/auth/register',
+      //   {
+      //     name: data.name,
+      //     email: data.email,
+      //     password: data.password,
+      //   },
+      // );
+      // this.setState = {
+      //   userData: response,
+      // };
     } catch (errors) {
-      //
-      console.log('--------', errors);
-      const formatedErrors={}
-      errors.forEach(error =>  formatedErrors[error.field]=error.message);
-        this.setState({
-          error:formatedErrors
-        })
+      console.log('--------', this.state);
+      const formatedErrors = {};
+      errors.forEach(error => (formatedErrors[error.field] = error.message));
+      this.setState({
+        error: formatedErrors,
+      });
     }
   };
   render() {
@@ -66,25 +66,43 @@ export default class SignUp extends Component {
             <View style={styles.child}>
               <Input
                 placeholder="Name"
-                value={this.state.name}
-                onChangeText={name => this.setState({name})}
+                value={this.state.Name}
+                onChangeText={Name => this.setState({Name})}
               />
+              {//neu ve trai co thi thuc hien ve phai true & true
+              this.state.error['Name'] && (
+                <Text style={{color: 'red', alignSelf: 'flex-start'}}>
+                  * {this.state.error['Name']}
+                </Text>
+              )}
               <Input
                 placeholder="Email"
-                value={this.state.email}
-                onChangeText={email => this.setState({email})}
+                value={this.state.Email}
+                onChangeText={Email => this.setState({Email})}
               />
+              {//neu ve trai co thi thuc hien ve phai true & true
+              this.state.error['Email'] && (
+                <Text style={{color: 'red', alignSelf: 'flex-start'}}>
+                  * {this.state.error['Email']}
+                </Text>
+              )}
               <Input
-                onChangeText={password => this.setState({password})}
+                onChangeText={Password => this.setState({Password})}
                 placeholder="Password"
                 textContentType="password"
-                value={this.state.password}
+                value={this.state.Password}
               />
+              {//neu ve trai co thi thuc hien ve phai true & true
+              this.state.error['Password'] && (
+                <Text style={{color: 'red', alignSelf: 'flex-start'}}>
+                  * {this.state.error['Password']}
+                </Text>
+              )}
               <Input
-                onChangeText={password_confirm =>
-                  this.setState({password_confirm})
+                onChangeText={Password_confirmation =>
+                  this.setState({Password_confirmation})
                 }
-                value={this.state.password_confirm}
+                value={this.state.Password_confirmation}
                 placeholder="Re-enter Password"
                 textContentType="password"
               />

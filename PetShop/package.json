@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "firebase": "^7.3.0",
     "indicative": "^7.2.3",
     "react": "16.9.0",
     "react-native": "0.61.2",

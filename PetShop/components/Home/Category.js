@@ -8,7 +8,6 @@ export default class Category extends Component {
     super(props);
   }
   render() {
-    console.log(this.props.navigation);
     return (
       <View>
         <FlatList
