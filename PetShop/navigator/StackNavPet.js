@@ -7,7 +7,7 @@ import Hamster from '../screens/Hamster';
 import Fish from '../screens/Fish';
 import Rabbit from '../screens/Rabbit';
 import Home from '../screens/Home';
-
+import Pet from '../screens/Pet';
 const stackNavPet = createStackNavigator(
   {
     Home: {
@@ -54,6 +54,13 @@ const stackNavPet = createStackNavigator(
     },
     Rabbit: {
       screen: Rabbit,
+      navigationOptions: () => ({
+        //the header will not have a background
+        headerTransparent: true,
+      }),
+    },
+    Pet: {
+      screen: Pet,
       navigationOptions: () => ({
         //the header will not have a background
         headerTransparent: true,

@@ -3,12 +3,13 @@ import Popular from '../screens/Popular';
 import New from '../screens/New';
 import Sales from '../screens/Sales';
 import {createAppContainer} from 'react-navigation';
-
 const materialTopTabNavigator = createMaterialTopTabNavigator(
   {
-    Popular: Popular,
-    New: New,
-    Sales: Sales,
+    Popular: {
+      screen: Popular,
+    },
+    New: {screen: New},
+    Sales: {screen: Sales},
   },
   {
     initialRouteName: 'Popular',
