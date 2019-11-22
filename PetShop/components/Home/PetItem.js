@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 //dung icon font nao thi add font do
 import Icon from 'react-native-vector-icons/Fontisto';
+
 export default class PetItem extends Component {
   constructor(props) {
     super(props);
@@ -80,7 +81,7 @@ export default class PetItem extends Component {
           <Icon
             name={this.state.name}
             size={30}
-            color={this.state.name === 'shopping-basket-add' ? 'green' : 'red'}
+            color={this.state.name === 'shopping-basket-add' ? 'black' : 'red'}
           />
         </TouchableOpacity>
       </TouchableOpacity>

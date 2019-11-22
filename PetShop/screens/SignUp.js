@@ -11,7 +11,6 @@ import Header from '../components/Form/Header';
 import Input from '../components/Form/Input';
 import Button from '../components/Form/Button';
 import {validateAll} from 'indicative/validator';
-import Axios from 'axios';
 //contentContainerStyle={{flexGrow: 1}} dùng để ngăn scroll view làm cắt màn hình
 export default class SignUp extends Component {
   state = {
