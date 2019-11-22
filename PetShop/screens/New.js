@@ -52,14 +52,6 @@ export default class New extends Component {
         <FlatList
           data={DATA}
           renderItem={item => {
-            // console.log(
-            //   item.item.source,
-            //   item.item.name,
-            //   item.item.info,
-            //   item.item.price,
-            //   item.item.type,
-            // );
-
             return (
               <PetItem
                 navigation={this.props.screenProps}

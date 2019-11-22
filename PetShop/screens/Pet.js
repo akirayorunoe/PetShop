@@ -7,44 +7,42 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
-  FlatList,
 } from 'react-native';
-import Swiper from 'react-native-web-swiper';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/Fontisto';
 export default class Pet extends Component {
   state = {
     icon: 'shopping-basket-add',
+    entries: [
+      {img: JSON.stringify(this.props.navigation.getParam('img'))},
+      {img: JSON.stringify(this.props.navigation.getParam('img'))},
+      {img: JSON.stringify(this.props.navigation.getParam('img'))},
+    ],
   };
-  // checkType(type) {
-  //   let source;
-  //   switch (type) {
-  //     case 'Cat':
-  //       source = require('../assets/imgs/icons8-cat-100.png');
-  //       break;
-  //     case 'Dog':
-  //       source = require('../assets/imgs/icons8-dog-100.png');
-  //       break;
-  //     case 'Bird':
-  //       source = require('../assets/imgs/icons8-bird-100.png');
-  //       break;
-  //     case 'Fish':
-  //       source = require('../assets/imgs/icons8-fish-100.png');
-  //       break;
-  //     case 'Hamster':
-  //       source = require('../assets/imgs/icons8-hamster-100.png');
-  //       break;
-  //     case 'Rabbit':
-  //       source = require('../assets/imgs/icons8-rabbit-100.png');
-  //       break;
-  //   }
-  //   return source;
-  // }
+  get pagination() {
+    const {entries, activeSlide = 0} = this.state;
+    return (
+      <Pagination
+        dotsLength={entries.length}
+        activeDotIndex={activeSlide}
+        containerStyle={{backgroundColor: '#F5F7FA'}}
+        dotStyle={{
+          width: 10,
+          height: 10,
+          borderRadius: 5,
+          backgroundColor: 'black',
+        }}
+        inactiveDotOpacity={0.4}
+        inactiveDotScale={0.6}
+      />
+    );
+  }
+  _renderItem({item, index}) {
+    return <Image style={styles.image} source={item.img} />;
+  }
   render() {
     //param tu screen khac gui qua duoi dang json
     //check key
-    console.log('---', JSON.stringify(this.props.navigation.getParam('img')), {
-      uri: 'https://facebook.github.io/react-native/img/tiny_logo.png',
-    });
 
     return (
       <View style={styles.container}>
@@ -55,51 +53,17 @@ export default class Pet extends Component {
               '',
             )}
           </Text>
-          {/* <FlatList
-          style={{height: 300}}
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          data={[
-            {img: JSON.stringify(this.props.navigation.getParam('img'))},
-            {img: JSON.stringify(this.props.navigation.getParam('img'))},
-            {img: JSON.stringify(this.props.navigation.getParam('img'))},
-          ]}
-          renderItem={item => {
-            console.log(item.item.img);
-            return <Image style={styles.image} source={item.item.img} />;
-          }}
-        /> */}
-          <View style={{height: 300}}>
-            <Swiper controlsProps={{prevTitle: '', nextTitle: ''}}>
-              <View style={styles.image}>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri:
-                      'https://facebook.github.io/react-native/img/tiny_logo.png',
-                  }}
-                />
-              </View>
-              <View style={styles.image}>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri:
-                      'https://facebook.github.io/react-native/img/tiny_logo.png',
-                  }}
-                />
-              </View>
-              <View style={styles.image}>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri:
-                      'https://facebook.github.io/react-native/img/tiny_logo.png',
-                  }}
-                />
-              </View>
-            </Swiper>
-          </View>
+          <Carousel
+            ref={c => {
+              this._carousel = c;
+            }}
+            data={this.state.entries}
+            renderItem={this._renderItem}
+            sliderWidth={Dimensions.get('window').width - 10}
+            itemWidth={Dimensions.get('window').width}
+            onSnapToItem={index => this.setState({activeSlide: index})}
+          />
+          {this.pagination}
           <TouchableOpacity
             style={{alignSelf: 'flex-end', top: -50, marginRight: 30}}>
             <View
@@ -156,7 +120,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: Dimensions.get('window').width,
-    height: 'auto',
+    height: 300,
   },
   price: {
     fontFamily: 'Roboto-Regular',
@@ -164,7 +128,7 @@ const styles = StyleSheet.create({
     color: '#420000',
     fontWeight: 'bold',
     alignSelf: 'flex-start',
-    marginTop: -30,
+    marginTop: -100,
     marginLeft: 20,
   },
   info: {
@@ -173,6 +137,6 @@ const styles = StyleSheet.create({
     color: '#420000',
     alignSelf: 'flex-start',
     marginHorizontal: 20,
-    marginTop: 25,
+    marginTop: 30,
   },
 });

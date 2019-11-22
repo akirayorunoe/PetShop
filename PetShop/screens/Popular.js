@@ -49,20 +49,11 @@ const DATA = [
 ];
 export default class Popular extends Component {
   render() {
-    //console.log('--+--', this.props.screenProps.data);
     return (
       <View style={styles.container}>
         <FlatList
           data={DATA}
           renderItem={item => {
-            // console.log(
-            //   item.item.source,
-            //   item.item.name,
-            //   item.item.info,
-            //   item.item.price,
-            //   item.item.type,
-            // );
-
             return (
               <PetItem
                 navigation={this.props.screenProps}
