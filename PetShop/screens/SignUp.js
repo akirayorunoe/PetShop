@@ -6,11 +6,13 @@ import {
   TouchableOpacity,
   Text,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Header from '../components/Form/Header';
 import Input from '../components/Form/Input';
 import Button from '../components/Form/Button';
 import {validateAll} from 'indicative/validator';
+import firebase from '../fb';
 //contentContainerStyle={{flexGrow: 1}} dùng để ngăn scroll view làm cắt màn hình
 export default class SignUp extends Component {
   state = {
@@ -21,8 +23,11 @@ export default class SignUp extends Component {
     Password_confirmation: '',
     UserData: '',
     error: {},
+    errSignUp: '',
+    loading: false,
   };
   registerUser = async data => {
+    this.setState({errSignUp: ''});
     const rules = {
       Name: 'required|string',
       Email: 'required|email',
@@ -36,19 +41,21 @@ export default class SignUp extends Component {
     };
     try {
       await validateAll(data, rules, message);
-      // const response = await Axios.post(
-      //   'https://react-blog-api.bahdcasts.com/api/auth/register',
-      //   {
-      //     name: data.name,
-      //     email: data.email,
-      //     password: data.password,
-      //   },
-      // );
-      // this.setState = {
-      //   userData: response,
-      // };
+      this.setState({loading: true, error: {}});
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.Email, this.state.Password)
+        .then(
+          () => alert('Sign up success!'),
+          this.props.navigation.navigate('Login'),
+        )
+        .catch(error => {
+          this.setState({
+            errSignUp: error.message,
+            loading: false,
+          });
+        });
     } catch (errors) {
-      console.log('--------', this.state);
       const formatedErrors = {};
       errors.forEach(error => (formatedErrors[error.field] = error.message));
       this.setState({
@@ -110,6 +117,18 @@ export default class SignUp extends Component {
                   setText="Sign Up"
                   onPress={() => this.registerUser(this.state)}
                 />
+                {this.state.loading && <ActivityIndicator />}
+                {//neu ve trai co thi thuc hien ve phai true & true
+                this.state.errSignUp !== '' && (
+                  <Text
+                    style={{
+                      color: 'red',
+                      alignSelf: 'flex-start',
+                      width: 308,
+                    }}>
+                    * {this.state.errSignUp}
+                  </Text>
+                )}
                 <Text
                   style={{
                     marginTop: 50,

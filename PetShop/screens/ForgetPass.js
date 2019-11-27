@@ -1,12 +1,20 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import Input from '../components/Form/Input';
 import Button from '../components/Form/Button';
 import {validateAll} from 'indicative/validator';
+import firebase from '../fb';
 export default class ForgetPass extends Component {
   state = {
     Email: '',
     error: {},
+    loading: false,
   };
   verifyUser = async data => {
     const rules = {
@@ -18,17 +26,21 @@ export default class ForgetPass extends Component {
     };
     try {
       await validateAll(data, rules, message);
-      // const response = await Axios.post(
-      //   'https://react-blog-api.bahdcasts.com/api/auth/register',
-      //   {
-      //     name: data.name,
-      //     email: data.email,
-      //     password: data.password,
-      //   },
-      // );
-      // this.setState = {
-      //   userData: response,
-      // };
+      this.setState({loading: true});
+      firebase
+        .auth()
+        .sendPasswordResetEmail(this.state.Email)
+        .then(function(user) {
+          this.setState({
+            Email: '',
+            error: {},
+            loading: false,
+          });
+          alert('', 'Please check your email...');
+        })
+        .catch(function(e) {
+          console.log(e);
+        });
     } catch (errors) {
       const formatedErrors = {};
       errors.forEach(error => (formatedErrors[error.field] = error.message));
@@ -83,6 +95,7 @@ export default class ForgetPass extends Component {
                   setText="Send"
                   onPress={() => this.verifyUser(this.state)}
                 />
+                {this.state.loading && <ActivityIndicator />}
               </View>
             </View>
           </View>
