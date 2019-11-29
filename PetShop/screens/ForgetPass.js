@@ -5,6 +5,7 @@ import {
   Text,
   ScrollView,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import Input from '../components/Form/Input';
 import Button from '../components/Form/Button';
@@ -14,9 +15,11 @@ export default class ForgetPass extends Component {
   state = {
     Email: '',
     error: {},
+    sendFail: '',
     loading: false,
   };
   verifyUser = async data => {
+    this.setState({sendFail: ''});
     const rules = {
       Email: 'required|email',
     };
@@ -26,20 +29,27 @@ export default class ForgetPass extends Component {
     };
     try {
       await validateAll(data, rules, message);
-      this.setState({loading: true});
+      this.setState({loading: true, error: {}});
+      //console.log(this.state.loading);//?
       firebase
         .auth()
         .sendPasswordResetEmail(this.state.Email)
         .then(function(user) {
+          Alert.alert('Sended', 'Please check your email...');
+        })
+        .then(() =>
           this.setState({
             Email: '',
             error: {},
             loading: false,
+            sendFail: '',
+          }),
+        )
+        .catch(err => {
+          this.setState({
+            sendFail: err.message,
+            loading: false,
           });
-          alert('', 'Please check your email...');
-        })
-        .catch(function(e) {
-          console.log(e);
         });
     } catch (errors) {
       const formatedErrors = {};
@@ -96,6 +106,17 @@ export default class ForgetPass extends Component {
                   onPress={() => this.verifyUser(this.state)}
                 />
                 {this.state.loading && <ActivityIndicator />}
+                {//neu ve trai co thi thuc hien ve phai true & true
+                this.state.sendFail !== '' && (
+                  <Text
+                    style={{
+                      color: 'red',
+                      alignSelf: 'flex-start',
+                      width: 308,
+                    }}>
+                    * {this.state.sendFail}
+                  </Text>
+                )}
               </View>
             </View>
           </View>

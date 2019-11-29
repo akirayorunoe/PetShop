@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView,
   ActivityIndicator,
+  ToastAndroid,
 } from 'react-native';
 import Header from '../components/Form/Header';
 import Input from '../components/Form/Input';
@@ -45,10 +46,14 @@ export default class SignUp extends Component {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.Email, this.state.Password)
-        .then(
-          () => alert('Sign up success!'),
-          this.props.navigation.navigate('Login'),
+        .then(() =>
+          ToastAndroid.showWithGravity(
+            'Sign up success!',
+            ToastAndroid.SHORT, //can be SHORT, LONG
+            ToastAndroid.TOP, //can be TOP, BOTTON, CENTER
+          ),
         )
+        .then(() => this.props.navigation.navigate('Login'))
         .catch(error => {
           this.setState({
             errSignUp: error.message,
