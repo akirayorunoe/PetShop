@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "354808018058",
+    "firebase_url": "https://react-native-petshop.firebaseio.com",
+    "project_id": "react-native-petshop",
+    "storage_bucket": "react-native-petshop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354808018058:android:209aabdf04b2a70f906973",
+        "android_client_info": {
+          "package_name": "com.petshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354808018058-q9s371rsp8endu97agcs57qchlahg7up.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.petshop",
+            "certificate_hash": "0f23d4461a6c6929dc2b279b4b2866669776c81f"
+          }
+        },
+        {
+          "client_id": "354808018058-ul3snkabbeq401hbqrgidr7odkb6s5ig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq2bpIVQ08XZh4ffYCU8LhLqzFC2RLknY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354808018058-ul3snkabbeq401hbqrgidr7odkb6s5ig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

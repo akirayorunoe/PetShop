@@ -14,6 +14,8 @@ import Button from '../components/Form/Button';
 import User from './User';
 import {validateAll} from 'indicative/validator';
 import firebase from '../fb';
+import {GoogleSignin} from 'react-native-google-signin';
+
 export default class Login extends Component {
   state = {
     Email: '',
@@ -24,6 +26,15 @@ export default class Login extends Component {
     loading: false,
   };
   componentDidMount() {
+    // //initial configuration
+    // GoogleSignin.configure({
+    //   //It is mandatory to call this method before attempting to call signIn()
+    //   scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+    //   // Repleace with your webClientId generated from Firebase console
+    //   webClientId: 'REPLACE_YOUR_WEB_CLIENT_ID_HERE',
+    // });
+    // //Check if user is already signed in
+    // this._isSignedIn();
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({
@@ -36,6 +47,17 @@ export default class Login extends Component {
       }
     });
   }
+  googlelogin = () => {
+    // async function bootstrap() {
+    //   await GoogleSignin.configure({
+    //     scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+    //     webClientId: '', // required
+    //   });
+    // }
+    // const { accessToken, idToken } = await GoogleSignin.signIn();
+    // const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
+    // await firebase.auth().signInWithCredential(credential);
+  };
   loginUser = async data => {
     this.setState({logInFail: ''});
     const rules = {
@@ -162,7 +184,7 @@ export default class Login extends Component {
                           <Image
                             source={require('../assets/imgs/Facebook.png')}></Image>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.googlelogin()}>
                           <Image
                             source={require('../assets/imgs/Google.png')}></Image>
                         </TouchableOpacity>

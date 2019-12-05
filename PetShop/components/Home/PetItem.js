@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 //dung icon font nao thi add font do
 import Icon from 'react-native-vector-icons/Fontisto';
-
-export default class PetItem extends Component {
+import {postCarts} from '../../actions';
+import {connect} from 'react-redux';
+class PetItem extends Component {
   constructor(props) {
     super(props);
   }
@@ -11,6 +12,13 @@ export default class PetItem extends Component {
     name: 'shopping-basket-add',
   };
   AddToCart() {
+    // this.props.postCarts(
+    //   this.props.source,
+    //   this.props.name,
+    //   this.props.info,
+    //   this.props.price,
+    //   this.state.name,
+    // );
     console.log('add');
   }
   RemoveFromCart() {
@@ -115,3 +123,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 });
+
+export default connect(null, {postCarts})(PetItem);

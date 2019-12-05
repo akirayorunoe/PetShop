@@ -46,6 +46,21 @@ export default class SignUp extends Component {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.Email, this.state.Password)
+        // .then(authData => {
+        // let account = {};
+        // account.email = this.state.Email;
+        // account.uid = authData.user.uid;
+        // account.username = this.state.Name;
+        // firebase
+        //   .database()
+        //   .ref('users/' + authData.user.uid)
+        //   .set({
+        //     account,
+        //   });
+        .then(() => {
+          var userf = firebase.auth().currentUser;
+          userf.updateProfile({displayName: this.state.Name});
+        })
         .then(() =>
           ToastAndroid.showWithGravity(
             'Sign up success!',
@@ -134,7 +149,7 @@ export default class SignUp extends Component {
                     * {this.state.errSignUp}
                   </Text>
                 )}
-                <Text
+                {/* <Text
                   style={{
                     marginTop: 50,
                     textAlign: 'center',
@@ -156,7 +171,7 @@ export default class SignUp extends Component {
                     <Image
                       source={require('../assets/imgs/Google.png')}></Image>
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             </View>
           </View>
