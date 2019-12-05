@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Image,
+  Alert,
 } from 'react-native';
 import firebase from '../fb';
 import Header from '../components/Home/Header';
@@ -31,8 +32,6 @@ export default class User extends Component {
     uPhotoUrl: null,
     onEdit: false,
     Password: '',
-    //phai la _confirmation de validator hieu
-    Password_confirmation: '',
     error: {},
     loading: false,
   };
@@ -130,21 +129,30 @@ export default class User extends Component {
   editProfile = () => {
     this.setState({onEdit: true});
   };
+  submitOne() {
+    var userf = firebase.auth().currentUser;
+    userf.updateProfile({displayName: this.state.temp});
+    this.setState({uName: this.state.temp, onEdit: false});
+  }
   onSubmit = async data => {
     const rules = {
-      Password: 'required|string|min:6|confirmed',
+      Password: 'required|string|min:6',
     };
     const message = {
       required: field => `${field} is required`,
       min: 'Password is too short',
-      confirmed: 'The password did not match',
     };
     try {
       await validateAll(data, rules, message);
       var userf = firebase.auth().currentUser;
-      userf.updateProfile({displayName: this.state.temp});
-      //userf.updatePassword(this.state.temp);
+      if (this.state.temp.length != 0) {
+        userf.updateProfile({displayName: this.state.temp});
+        this.setState({uName: this.state.temp});
+      }
+      userf.updatePassword(this.state.Password).catch(err => console.log(err));
       this.setState({onEdit: false});
+      Alert.alert('Password changed!', 'Please sign in again');
+      firebase.auth().signOut();
     } catch (errors) {
       const formatedErrors = {};
       errors.forEach(error => (formatedErrors[error.field] = error.message));
@@ -207,8 +215,11 @@ export default class User extends Component {
                   header="NICKNAME"
                   value={
                     <TextInput
-                      value={this.state.uName}
-                      onChangeText={temp => this.setState(temp)}></TextInput>
+                      placeholder="Change your name here"
+                      value={this.state.temp}
+                      onChangeText={text =>
+                        this.setState({temp: text})
+                      }></TextInput>
                   }
                 />
                 <EditBox
@@ -221,10 +232,18 @@ export default class User extends Component {
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
+                    marginTop: 50,
                   }}>
-                  <Finish name="check" onPress={() => this.onSubmit()} />
                   <Finish
-                    name="cancel"
+                    name="check"
+                    onPress={() =>
+                      this.state.Password.length !== 0
+                        ? this.onSubmit(this.state)
+                        : this.submitOne()
+                    }
+                  />
+                  <Finish
+                    name="close-o"
                     onPress={() => this.setState({onEdit: false})}
                   />
                 </View>
