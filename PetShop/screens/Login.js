@@ -14,7 +14,7 @@ import Button from '../components/Form/Button';
 import User from './User';
 import {validateAll} from 'indicative/validator';
 import firebase from '../fb';
-import {GoogleSignin} from 'react-native-google-signin';
+//import {GoogleSignin} from 'react-native-google-signin';
 
 export default class Login extends Component {
   state = {
@@ -166,7 +166,7 @@ export default class Login extends Component {
                         setText="Sign up"
                         onPress={() => this.props.navigation.navigate('SignUp')}
                       />
-                      <Text
+                      {/* <Text
                         style={{
                           marginTop: 40,
                           textAlign: 'center',
@@ -187,8 +187,8 @@ export default class Login extends Component {
                         <TouchableOpacity onPress={() => this.googlelogin()}>
                           <Image
                             source={require('../assets/imgs/Google.png')}></Image>
-                        </TouchableOpacity>
-                      </View>
+                        </TouchableOpacity> 
+                      </View>*/}
                     </View>
                   </View>
                 </View>

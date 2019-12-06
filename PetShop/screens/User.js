@@ -28,6 +28,7 @@ export default class User extends Component {
   state = {
     temp: '',
     uName: '',
+    uAddress: '',
     uEmail: '',
     uPhotoUrl: null,
     onEdit: false,
@@ -112,7 +113,18 @@ export default class User extends Component {
     });
   };
   componentDidMount() {
-    var user = firebase.auth().currentUser;
+    //console.log('123');
+    let user = firebase.auth().currentUser;
+    // let id = user.uid; //user ID
+    firebase
+      .database()
+      .ref('address/' + user.uid)
+      .on('value', snapshot => {
+        if (snapshot.val() != null) {
+          let address = snapshot.val().Address;
+          this.setState({uAddress: address});
+        }
+      });
     //Để name, profile load cùng lúc
     user.reload().then(() => {
       const refreshUser = firebase.auth().currentUser;
@@ -130,9 +142,28 @@ export default class User extends Component {
     this.setState({onEdit: true});
   };
   submitOne() {
+    //console.log(this.state);
     var userf = firebase.auth().currentUser;
-    userf.updateProfile({displayName: this.state.temp});
-    this.setState({uName: this.state.temp, onEdit: false});
+    if (this.state.temp.length != 0) {
+      console.log('a');
+      userf.updateProfile({displayName: this.state.temp});
+      this.setState({uName: this.state.temp});
+    }
+    if (this.state.uAddress.length != 0) {
+      console.log('b');
+      firebase
+        .database()
+        .ref('address/' + userf.uid)
+        .update({Address: this.state.uAddress})//update
+        .then(data => {
+          console.log('data ', userf.uid, data);
+        })
+        .catch(error => {
+          //error callback
+          console.log('error ', error);
+        });
+    }
+    this.setState({onEdit: false});
   }
   onSubmit = async data => {
     const rules = {
@@ -148,6 +179,21 @@ export default class User extends Component {
       if (this.state.temp.length != 0) {
         userf.updateProfile({displayName: this.state.temp});
         this.setState({uName: this.state.temp});
+      }
+      if (this.state.uAddress.length != 0) {
+        firebase
+          .database()
+          .ref('address/' + userf.uid)
+          .set({Address: this.state.uAddress})
+          .then(data => {
+            //this.setState({uAddress: this.state.uAddress});
+            //success callback
+            console.log('data ', data);
+          })
+          .catch(error => {
+            //error callback
+            console.log('error ', error);
+          });
       }
       userf.updatePassword(this.state.Password).catch(err => console.log(err));
       this.setState({onEdit: false});
@@ -225,7 +271,12 @@ export default class User extends Component {
                 <EditBox
                   header="SHIPPING ADDRESS"
                   value={
-                    <TextInput placeholder="Please add your address here"></TextInput>
+                    <TextInput
+                      placeholder="Please add your address here"
+                      value={this.state.uAddress}
+                      onChangeText={text =>
+                        this.setState({uAddress: text})
+                      }></TextInput>
                   }
                 />
                 <View
@@ -261,8 +312,9 @@ export default class User extends Component {
                 />
                 <EditBox
                   header="SHIPPING ADDRESS"
-                  value={<Text value="none"></Text>}
+                  value={<Text>{this.state.uAddress}</Text>}
                 />
+                {/* <Text >{this.state.uAddress}</Text> */}
                 <View
                   style={{
                     alignSelf: 'center',
