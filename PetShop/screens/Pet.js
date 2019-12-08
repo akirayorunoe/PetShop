@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/Fontisto';
-export default class Pet extends Component {
+import {connect} from 'react-redux';
+class Pet extends Component {
   state = {
     icon: 'shopping-basket-add',
     entries: [
@@ -40,10 +41,17 @@ export default class Pet extends Component {
   _renderItem({item, index}) {
     return <Image style={styles.image} source={item.img} />;
   }
+  AddToCart() {
+    this.props.RemoveFromCart();
+    console.log('added');
+  }
+  RemoveFromCart() {
+    this.props.AddToCart();
+    console.log('removed');
+  }
   render() {
     //param tu screen khac gui qua duoi dang json
     //check key
-
     return (
       <View style={styles.container}>
         <ScrollView style={{flex: 1}}>
@@ -65,6 +73,11 @@ export default class Pet extends Component {
           />
           {this.pagination}
           <TouchableOpacity
+            onPress={() =>
+              this.props.cartsModify === 'shopping-basket-add'
+                ? this.AddToCart()
+                : this.RemoveFromCart()
+            }
             style={{alignSelf: 'flex-end', top: -50, marginRight: 30}}>
             <View
               style={{
@@ -77,15 +90,11 @@ export default class Pet extends Component {
               }}>
               <Icon
                 size={30}
-                name={
-                  JSON.stringify(
-                    this.props.navigation.getParam('addToCart'),
-                  ).replace(/\"/g, '') === 'shopping-basket-add'
-                    ? 'shopping-basket-add'
-                    : 'shopping-basket-remove'
-                }
+                name={this.props.cartsModify}
                 color={
-                  this.state.icon === 'shopping-basket-add' ? 'black' : 'red'
+                  this.props.cartsModify === 'shopping-basket-add'
+                    ? 'black'
+                    : 'red'
                 }
               />
             </View>
@@ -140,3 +149,14 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    cartsModify: state.cartsModify.icon,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  AddToCart: () => dispatch({type: 'ADD_TO_CART'}),
+  RemoveFromCart: () => dispatch({type: 'REMOVE_FROM_CART'}),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Pet);

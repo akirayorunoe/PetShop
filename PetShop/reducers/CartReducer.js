@@ -1,11 +1,15 @@
-export default function(state = {}, action) {
+export default function(state = {icon: 'shopping-basket-add'}, action) {
   switch (action.type) {
-    case 'CARTS_FETCH':
-      console.log(action.payload);
+    case 'ADD_TO_CART':
       return {
         ...state,
+        icon: 'shopping-basket-add',
       };
-    default:
-      return state;
+    case 'REMOVE_FROM_CART':
+      return {
+        ...state,
+        icon: 'shopping-basket-remove',
+      };
   }
+  return state;
 }

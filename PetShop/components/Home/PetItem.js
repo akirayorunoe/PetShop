@@ -2,27 +2,18 @@ import React, {Component} from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 //dung icon font nao thi add font do
 import Icon from 'react-native-vector-icons/Fontisto';
-import {postCarts} from '../../actions';
 import {connect} from 'react-redux';
 class PetItem extends Component {
   constructor(props) {
     super(props);
   }
-  state = {
-    name: 'shopping-basket-add',
-  };
   AddToCart() {
-    // this.props.postCarts(
-    //   this.props.source,
-    //   this.props.name,
-    //   this.props.info,
-    //   this.props.price,
-    //   this.state.name,
-    // );
-    console.log('add');
+    this.props.RemoveFromCart();
+    console.log('added');
   }
   RemoveFromCart() {
-    console.log('remove');
+    this.props.AddToCart();
+    console.log('removed');
   }
   render() {
     return (
@@ -35,10 +26,10 @@ class PetItem extends Component {
             name: this.props.name,
             info: this.props.info,
             price: this.props.price,
-            addToCart: this.state.name,
           });
         }}>
         <Image source={this.props.source} style={styles.img}></Image>
+        {/* */}
         <View style={styles.textcontent}>
           <Text
             numberOfLines={1}
@@ -75,11 +66,9 @@ class PetItem extends Component {
         </View>
         <TouchableOpacity
           onPress={() =>
-            this.state.name === 'shopping-basket-add'
-              ? (this.setState({name: 'shopping-basket-remove'}),
-                this.AddToCart())
-              : (this.setState({name: 'shopping-basket-add'}),
-                this.RemoveFromCart())
+            this.props.cartsModify === 'shopping-basket-add'
+              ? this.AddToCart()
+              : this.RemoveFromCart()
           }
           style={{
             flex: 1,
@@ -87,9 +76,11 @@ class PetItem extends Component {
             alignSelf: 'center',
           }}>
           <Icon
-            name={this.state.name}
+            name={this.props.cartsModify}
             size={30}
-            color={this.state.name === 'shopping-basket-add' ? 'black' : 'red'}
+            color={
+              this.props.cartsModify === 'shopping-basket-add' ? 'black' : 'red'
+            }
           />
         </TouchableOpacity>
       </TouchableOpacity>
@@ -124,4 +115,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, {postCarts})(PetItem);
+const mapStateToProps = state => {
+  return {
+    cartsModify: state.cartsModify.icon,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  AddToCart: () => dispatch({type: 'ADD_TO_CART'}),
+  RemoveFromCart: () => dispatch({type: 'REMOVE_FROM_CART'}),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(PetItem);

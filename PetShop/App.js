@@ -8,7 +8,7 @@ import reducer from './reducers';
 //Hello World
 class App extends Component {
   render() {
-    const state = createStore(reducer, {}, applyMiddleware(ReduxThunk));
+    const state = createStore(reducer, applyMiddleware(ReduxThunk));
     return (
       <Provider store={state}>
         <TNav />

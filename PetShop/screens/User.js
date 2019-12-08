@@ -44,7 +44,6 @@ export default class User extends Component {
         // return the blob
         resolve(xhr.response);
       };
-
       xhr.onerror = function() {
         // something went wrong
         reject(new Error('uriToBlob failed'));
@@ -77,14 +76,18 @@ export default class User extends Component {
   };
   imgChoose = () => {
     ImagePicker.showImagePicker(options, response => {
-      this.setState({loading: true});
+     
       if (response.didCancel) {
         //console.log('User cancelled image picker');
+        this.setState({loading: false});
       } else if (response.error) {
         //console.log('ImagePicker Error: ', response.error);
+        this.setState({loading: false});
       } else if (response.customButton) {
         //console.log('User tapped custom button: ', response.customButton);
+        
       } else {
+        this.setState({loading: true});
         //uploadToFirebase().then(snapshot)
         const user = firebase.auth().currentUser;
         const source = response;
@@ -154,7 +157,7 @@ export default class User extends Component {
       firebase
         .database()
         .ref('address/' + userf.uid)
-        .update({Address: this.state.uAddress})//update
+        .update({Address: this.state.uAddress})//set
         .then(data => {
           console.log('data ', userf.uid, data);
         })
