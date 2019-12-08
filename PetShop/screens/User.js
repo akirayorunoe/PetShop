@@ -79,10 +79,10 @@ export default class User extends Component {
      
       if (response.didCancel) {
         //console.log('User cancelled image picker');
-        this.setState({loading: false});
+        //this.setState({loading: false});
       } else if (response.error) {
         //console.log('ImagePicker Error: ', response.error);
-        this.setState({loading: false});
+        //this.setState({loading: false});
       } else if (response.customButton) {
         //console.log('User tapped custom button: ', response.customButton);
         
