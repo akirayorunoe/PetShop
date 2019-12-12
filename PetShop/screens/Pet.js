@@ -14,10 +14,26 @@ import {connect} from 'react-redux';
 class Pet extends Component {
   state = {
     icon: 'shopping-basket-add',
+    //get param phải replace "" bằng ' ' để tránh gây lỗi
     entries: [
-      {img: JSON.stringify(this.props.navigation.getParam('img'))},
-      {img: JSON.stringify(this.props.navigation.getParam('img'))},
-      {img: JSON.stringify(this.props.navigation.getParam('img'))},
+      {
+        img: JSON.stringify(this.props.navigation.getParam('img1')).replace(
+          /\"/g,
+          '',
+        ),
+      },
+      {
+        img: JSON.stringify(this.props.navigation.getParam('img2')).replace(
+          /\"/g,
+          '',
+        ),
+      },
+      {
+        img: JSON.stringify(this.props.navigation.getParam('img3')).replace(
+          /\"/g,
+          '',
+        ),
+      },
     ],
   };
   get pagination() {
@@ -39,7 +55,7 @@ class Pet extends Component {
     );
   }
   _renderItem({item, index}) {
-    return <Image style={styles.image} source={item.img} />;
+    return <Image source={{uri: item.img}} style={styles.image} />;
   }
   AddToCart() {
     this.props.RemoveFromCart();

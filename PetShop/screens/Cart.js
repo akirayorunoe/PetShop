@@ -1,11 +1,22 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import Header from '../components/Home/Header';
+import Button from '../components/Form/Button';
 export default class Cart extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header setText="YOUR CART" />
+        <ScrollView style={{flex: 1}}>
+          <Header setText="YOUR CART" />
+        </ScrollView>
+        <View
+          style={{
+            alignSelf: 'center',
+            position: 'absolute',
+            bottom: 30,
+          }}>
+          <Button setText="Check out" />
+        </View>
       </View>
     );
   }

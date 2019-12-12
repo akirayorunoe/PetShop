@@ -76,7 +76,6 @@ export default class User extends Component {
   };
   imgChoose = () => {
     ImagePicker.showImagePicker(options, response => {
-     
       if (response.didCancel) {
         //console.log('User cancelled image picker');
         //this.setState({loading: false});
@@ -85,7 +84,6 @@ export default class User extends Component {
         //this.setState({loading: false});
       } else if (response.customButton) {
         //console.log('User tapped custom button: ', response.customButton);
-        
       } else {
         this.setState({loading: true});
         //uploadToFirebase().then(snapshot)
@@ -118,6 +116,8 @@ export default class User extends Component {
   componentDidMount() {
     //console.log('123');
     let user = firebase.auth().currentUser;
+    //Để name, profile load cùng lúc
+    user.reload();
     // let id = user.uid; //user ID
     firebase
       .database()
@@ -157,7 +157,7 @@ export default class User extends Component {
       firebase
         .database()
         .ref('address/' + userf.uid)
-        .update({Address: this.state.uAddress})//set
+        .update({Address: this.state.uAddress}) //set
         .then(data => {
           console.log('data ', userf.uid, data);
         })

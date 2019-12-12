@@ -15,6 +15,9 @@ class PetItem extends Component {
     this.props.AddToCart();
     console.log('removed');
   }
+  getPrice(price, discort) {
+    return price - (price * discort) / 100;
+  }
   render() {
     return (
       <TouchableOpacity
@@ -22,13 +25,18 @@ class PetItem extends Component {
         onPress={() => {
           this.props.navigation.navigate('Pet', {
             //add param to Pet page
-            img: this.props.source,
+            img1: this.props.source1,
+            img2: this.props.source2,
+            img3: this.props.source3,
             name: this.props.name,
             info: this.props.info,
-            price: this.props.price,
+            price:
+              this.props.discount != null
+                ? this.getPrice(this.props.price, this.props.discount)
+                : this.props.price,
           });
         }}>
-        <Image source={this.props.source} style={styles.img}></Image>
+        <Image source={{uri: this.props.source1}} style={styles.img}></Image>
         {/* */}
         <View style={styles.textcontent}>
           <Text
@@ -52,17 +60,48 @@ class PetItem extends Component {
             }}>
             {this.props.info}
           </Text>
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={{
-              fontFamily: 'Roboto-Regular',
-              fontWeight: 'bold',
-              fontSize: 15,
-              color: '#420000',
-            }}>
-            $ {this.props.price}
-          </Text>
+          {this.props.discount != null ? null : (
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={{
+                fontFamily: 'Roboto-Regular',
+                fontWeight: 'bold',
+                fontSize: 15,
+                color: '#420000',
+              }}>
+              $ {this.props.price}
+            </Text>
+          )}
+          {this.props.discount != null
+            ? (console.log(this.props.discount),
+              (
+                <View style={styles.horizonText}>
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    style={{
+                      fontFamily: 'Roboto-Regular',
+                      fontWeight: 'bold',
+                      fontSize: 15,
+                      color: '#420000',
+                    }}>
+                    $ {this.getPrice(this.props.price, this.props.discount)}
+                  </Text>
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    style={{
+                      fontFamily: 'Roboto-Regular',
+                      fontWeight: 'bold',
+                      fontSize: 15,
+                      color: 'tomato',
+                    }}>
+                    {this.props.discount}% OFF
+                  </Text>
+                </View>
+              ))
+            : null}
         </View>
         <TouchableOpacity
           onPress={() =>
@@ -102,6 +141,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     justifyContent: 'space-between',
     height: 90,
+    marginHorizontal: 10,
   },
   img: {
     flex: 1,
@@ -112,6 +152,12 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 10,
     marginTop: 10,
+    opacity: 0.8,
+  },
+  horizonText: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 
