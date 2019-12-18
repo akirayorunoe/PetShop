@@ -3,27 +3,32 @@ import Header from '../components/Home/Header';
 import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 import PetItem from '../components/Home/PetItem';
 import {getData} from '../data/petData';
-
-export default class Hamster extends Component {
-  state = {
-    loading: true,
-    DATA: [],
-  };
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+class Hamster extends Component {
+  AddToCart() {
+    this.props.RemoveFromCart();
+    console.log('added');
+  }
+  RemoveFromCart() {
+    this.props.AddToCart();
+    console.log('removed');
+  }
   componentDidMount() {
-    getData().then(response => {
-      //console.log('DATA nek1', response);
-      this.setState({loading: false, DATA: response});
-    });
+    this.props.getData();
   }
   render() {
+    const {carts, isFetching} = this.props.data;
+    //console.log('abc', this.props.data);
     return (
       <View style={styles.container}>
         <Header setText="HAMSTER" />
-        {this.state.loading ? (
+        {isFetching ? (
           <ActivityIndicator size="large" color="orange" />
         ) : (
           <FlatList
-            data={this.state.DATA.filter(x => x.type === 'Hamster')}
+            //du lieu read only nen phai slice() truoc de copy
+            data={carts.filter(x => x.type === 'Hamster')}
             renderItem={item => {
               return (
                 <PetItem
@@ -34,6 +39,8 @@ export default class Hamster extends Component {
                   name={item.item.name}
                   info={item.item.info}
                   price={item.item.price}
+                  discount={item.item.discount}
+                  id={item.item.id}
                 />
               );
             }}></FlatList>
@@ -46,3 +53,17 @@ export default class Hamster extends Component {
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#F5F7FA'},
 });
+function mapStateToProps(state) {
+  //console.log('a', state);
+  return {
+    data: state.cartsData, //lang nghe tu cartsData(reducer fetchItem)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    ...bindActionCreators({getData}, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Hamster);

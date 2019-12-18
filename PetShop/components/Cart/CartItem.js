@@ -1,25 +1,25 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
-//dung icon font nao thi add font do
-import Icon from 'react-native-vector-icons/Fontisto';
-import {connect} from 'react-redux';
-class PetItem extends Component {
+import {
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  View,
+  Text,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
+
+export default class CartItem extends Component {
   constructor(props) {
     super(props);
-  }
-  AddToCart(id) {
-    this.props.this.props.DispatchRemoveFromCart(id);
-  }
-  RemoveFromCart(id) {
-    this.props.DispatchAddToCart(id);
   }
   getPrice(price, discort) {
     return price - (price * discort) / 100;
   }
   render() {
-    //console.log('id1:', this.props.id);
     return (
       <TouchableOpacity
+        style={styles.container}
         style={styles.container}
         onPress={() => {
           this.props.navigation.navigate('Pet', {
@@ -29,7 +29,6 @@ class PetItem extends Component {
             img3: this.props.source3,
             name: this.props.name,
             info: this.props.info,
-            id: this.props.id,
             price:
               this.props.discount != null
                 ? this.getPrice(this.props.price, this.props.discount)
@@ -63,7 +62,7 @@ class PetItem extends Component {
           {this.props.discount != null ? null : (
             <Text
               numberOfLines={1}
-              ellipsizeMode="tail" //thong ttin cua tung item dau
+              ellipsizeMode="tail"
               style={{
                 fontFamily: 'Roboto-Regular',
                 fontWeight: 'bold',
@@ -100,44 +99,36 @@ class PetItem extends Component {
             </View>
           ) : null}
         </View>
-        <TouchableOpacity
-          onPress={() =>
-            this.props.cartsModify === 'shopping-basket-add'
-              ? this.AddToCart(this.props.id)
-              : this.RemoveFromCart(this.props.id)
-          }
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-            alignSelf: 'center',
-          }}>
-          <Icon
-            name={
-              !!this.props.cartsModify
-                ? this.props.cartsModify
-                : 'shopping-basket-add'
-            }
-            size={30}
-            color={
-              !!this.props.cartsModify
-                ? this.props.cartsModify === 'shopping-basket-add'
-                  ? 'black'
-                  : 'red'
-                : ' black'
-            }
-          />
-        </TouchableOpacity>
+        <View style={styles.cartModi}>
+          <TouchableOpacity style={styles.icon}>
+            <Icon name="minus" size={30} color="black" />
+          </TouchableOpacity>
+          <View
+            style={{
+              backgroundColor: 'white',
+              height: 42,
+              alignSelf: 'center',
+            }}>
+            <TextInput
+              maxLength={2}
+              keyboardType="numeric"
+              textContentType="telephoneNumber"
+            />
+          </View>
+          <TouchableOpacity style={styles.icon}>
+            <Icon name="plus" size={30} color="black" />
+          </TouchableOpacity>
+        </View>
       </TouchableOpacity>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
     height: 100,
-    alignSelf: 'stretch',
+    marginRight: 15,
   },
   textcontent: {
     marginTop: 5,
@@ -164,16 +155,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  icon: {justifyContent: 'center'},
+  cartModi: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
 });
-
-const mapStateToProps = state => {
-  return {
-    cartsModify: state.cartsModify.icon,
-  };
-};
-const mapDispatchToProps = dispatch => ({
-  DispatchAddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
-  DispatchRemoveFromCart: id => dispatch({type: 'REMOVE_FROM_CART', id}),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(PetItem);
-//man hinh nay nek.ok

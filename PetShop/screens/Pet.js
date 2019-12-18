@@ -57,17 +57,18 @@ class Pet extends Component {
   _renderItem({item, index}) {
     return <Image source={{uri: item.img}} style={styles.image} />;
   }
-  AddToCart() {
-    this.props.RemoveFromCart();
-    console.log('added');
+  AddToCart(id) {
+    this.props.RemoveFromCart(id);
+    console.log(id, 'added');
   }
-  RemoveFromCart() {
-    this.props.AddToCart();
-    console.log('removed');
+  RemoveFromCart(id) {
+    this.props.AddToCart(id);
+    console.log(id, 'removed');
   }
   render() {
     //param tu screen khac gui qua duoi dang json
     //check key
+    //console.log(this.props.navigation.getParam('id'));
     return (
       <View style={styles.container}>
         <ScrollView style={{flex: 1}}>
@@ -83,7 +84,7 @@ class Pet extends Component {
             }}
             data={this.state.entries}
             renderItem={this._renderItem}
-            sliderWidth={Dimensions.get('window').width - 10}
+            sliderWidth={Dimensions.get('window').width} //- 10
             itemWidth={Dimensions.get('window').width}
             onSnapToItem={index => this.setState({activeSlide: index})}
           />
@@ -91,8 +92,8 @@ class Pet extends Component {
           <TouchableOpacity
             onPress={() =>
               this.props.cartsModify === 'shopping-basket-add'
-                ? this.AddToCart()
-                : this.RemoveFromCart()
+                ? this.AddToCart(this.props.navigation.getParam('id'))
+                : this.RemoveFromCart(this.props.navigation.getParam('id'))
             }
             style={{alignSelf: 'flex-end', top: -50, marginRight: 30}}>
             <View
@@ -106,11 +107,17 @@ class Pet extends Component {
               }}>
               <Icon
                 size={30}
-                name={this.props.cartsModify}
+                name={
+                  !!this.props.cartsModify
+                    ? this.props.cartsModify
+                    : 'shopping-basket-add'
+                }
                 color={
-                  this.props.cartsModify === 'shopping-basket-add'
-                    ? 'black'
-                    : 'red'
+                  !!this.props.cartsModify
+                    ? this.props.cartsModify === 'shopping-basket-add'
+                      ? 'black'
+                      : 'red'
+                    : ' black'
                 }
               />
             </View>
@@ -172,7 +179,7 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = dispatch => ({
-  AddToCart: () => dispatch({type: 'ADD_TO_CART'}),
-  RemoveFromCart: () => dispatch({type: 'REMOVE_FROM_CART'}),
+  AddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
+  RemoveFromCart: id => dispatch({type: 'REMOVE_FROM_CART', id}),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Pet);

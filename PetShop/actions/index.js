@@ -1,24 +1,3 @@
-import firebase from '../fb';
-
-export function getCarts() {
-  return dispatch => {
-    firebase
-      .database()
-      .ref('/carts')
-      .on('value', snapshot => {
-        dispatch({
-          type: 'CARTS_FETCH',
-          payload: snapshot.val(),
-        });
-      });
-  };
-}
-
-export function postCarts(img, name, info, price, addToCart) {
-  return dispatch => {
-    firebase
-      .database()
-      .ref('/carts')
-      .push({img, name, info, price, addToCart});
-  };
-}
+export const FETCHING_CARTS = 'FETCHING_CARTS';
+export const FETCH_CARTS_SUCCESS = 'FETCH_CARTS_SUCCESS';
+export const FETCH_CARTS_FAILURE = 'FETCH_CARTS_FAILURE';

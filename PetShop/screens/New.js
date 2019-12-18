@@ -5,28 +5,30 @@ import PetItem from '../components/Home/PetItem';
 //import firebase from '../fb';
 // import DATA from '../data/petData';
 import {getData} from '../data/petData';
-export default class New extends Component {
-  //chay trc khi render
-  componentDidMount() {
-    getData().then(response => {
-      //console.log('DATA nek', response);
-      this.setState({loading: false, DATA: response});
-    });
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+class New extends Component {
+  AddToCart() {
+    this.props.RemoveFromCart();
+    console.log('added');
   }
-  state = {
-    loading: true,
-    DATA: [],
-  };
+  RemoveFromCart() {
+    this.props.AddToCart();
+    console.log('removed');
+  }
+  componentDidMount() {
+    this.props.getData();
+  }
   render() {
-    if (this.state.loading) {
+    const {carts, isFetching} = this.props.data;
+    //console.log('a', this.props.data);
+    if (isFetching) {
       return <ActivityIndicator size="large" color="orange" />;
     } else
       return (
         <View style={styles.container}>
           <FlatList
-            data={this.state.DATA.sort(
-              (x, y) => x.date.seconds - y.date.seconds,
-            )}
+            data={carts.slice().sort((x, y) => y.date.seconds - x.date.seconds)}
             renderItem={item => {
               return (
                 <PetItem
@@ -38,6 +40,7 @@ export default class New extends Component {
                   info={item.item.info}
                   price={item.item.price}
                   discount={item.item.discount}
+                  id={item.item.id}
                 />
               );
             }}></FlatList>
@@ -49,3 +52,17 @@ export default class New extends Component {
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#F5F7FA'},
 });
+function mapStateToProps(state) {
+  //console.log('a', state);
+  return {
+    data: state.cartsData,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    ...bindActionCreators({getData}, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(New);

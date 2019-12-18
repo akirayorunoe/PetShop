@@ -1,19 +1,16 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {getData} from '../data/petData';
 import PetItem from '../components/Home/PetItem';
-export default class Search extends Component {
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+class Search extends Component {
   componentDidMount() {
-    getData().then(response => {
-      //console.log('DATA nek', response);
-      this.setState({loading: false, DATA: response});
-    });
+    this.props.getData();
   }
   state = {
     search: '',
-    loading: true,
-    DATA: [],
     DATASearch: [],
   };
 
@@ -22,7 +19,8 @@ export default class Search extends Component {
   };
   SearchFilterFunction(text) {
     //passing the inserted text in textinput
-    const newData = this.state.DATA.filter(function(item) {
+    if (this.props.isFetching) return;
+    const newData = this.props.data.carts.filter(function(item) {
       //applying filter for the inserted text in search bar
       //tìm theo tên
       const itemDataName = item.name
@@ -48,6 +46,8 @@ export default class Search extends Component {
   }
   render() {
     const {search} = this.state;
+    const {carts, isFetching} = this.props.data;
+    //console.log('a', this.props.data);
     return (
       <View style={styles.container}>
         <SearchBar
@@ -76,22 +76,27 @@ export default class Search extends Component {
             marginHorizontal: 15,
           }}
         />
-
-        <FlatList
-          data={this.state.search != '' ? this.state.DATASearch : []}
-          renderItem={item => {
-            return (
-              <PetItem
-                navigation={this.props.navigation}
-                source1={item.item.source1}
-                source2={item.item.source2}
-                source3={item.item.source3}
-                name={item.item.name}
-                info={item.item.info}
-                price={item.item.price}
-              />
-            );
-          }}></FlatList>
+        {isFetching ? (
+          <ActivityIndicator size="large" color="orange" />
+        ) : (
+          <FlatList
+            data={this.state.search != '' ? this.state.DATASearch : []}
+            renderItem={item => {
+              return (
+                <PetItem
+                  navigation={this.props.navigation}
+                  source1={item.item.source1}
+                  source2={item.item.source2}
+                  source3={item.item.source3}
+                  name={item.item.name}
+                  info={item.item.info}
+                  price={item.item.price}
+                  discount={item.item.discount}
+                  id={item.item.id}
+                />
+              );
+            }}></FlatList>
+        )}
       </View>
     );
   }
@@ -100,3 +105,17 @@ export default class Search extends Component {
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: '#F5F7FA'},
 });
+function mapStateToProps(state) {
+  //console.log('a', state);
+  return {
+    data: state.cartsData, //lang nghe tu cartsData(reducer fetchItem)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    ...bindActionCreators({getData}, dispatch),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
