@@ -13,7 +13,10 @@ import Icon from 'react-native-vector-icons/Fontisto';
 import {connect} from 'react-redux';
 class Pet extends Component {
   state = {
-    icon: 'shopping-basket-add',
+    icon: JSON.stringify(this.props.navigation.getParam('icon')).replace(
+      /\"/g,
+      '',
+    ),
     //get param phải replace "" bằng ' ' để tránh gây lỗi
     entries: [
       {
@@ -59,10 +62,12 @@ class Pet extends Component {
   }
   AddToCart(id) {
     this.props.RemoveFromCart(id);
+    this.setState({icon: 'shopping-basket-remove'});
     console.log(id, 'added');
   }
   RemoveFromCart(id) {
     this.props.AddToCart(id);
+    this.setState({icon: 'shopping-basket-add'});
     console.log(id, 'removed');
   }
   render() {
@@ -91,7 +96,7 @@ class Pet extends Component {
           {this.pagination}
           <TouchableOpacity
             onPress={() =>
-              this.props.cartsModify === 'shopping-basket-add'
+              this.state.icon === 'shopping-basket-add'
                 ? this.AddToCart(this.props.navigation.getParam('id'))
                 : this.RemoveFromCart(this.props.navigation.getParam('id'))
             }
@@ -107,17 +112,9 @@ class Pet extends Component {
               }}>
               <Icon
                 size={30}
-                name={
-                  !!this.props.cartsModify
-                    ? this.props.cartsModify
-                    : 'shopping-basket-add'
-                }
+                name={this.state.icon}
                 color={
-                  !!this.props.cartsModify
-                    ? this.props.cartsModify === 'shopping-basket-add'
-                      ? 'black'
-                      : 'red'
-                    : ' black'
+                  this.state.icon === 'shopping-basket-add' ? 'black' : 'red'
                 }
               />
             </View>
@@ -173,13 +170,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    cartsModify: state.cartsModify.icon,
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     cartsModify: state.cartsModify.icon,
+//   };
+// };
 const mapDispatchToProps = dispatch => ({
   AddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
   RemoveFromCart: id => dispatch({type: 'REMOVE_FROM_CART', id}),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Pet);
+export default connect(null, mapDispatchToProps)(Pet);

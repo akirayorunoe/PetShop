@@ -38,6 +38,7 @@ class Sales extends Component {
                   price={item.item.price}
                   discount={item.item.discount}
                   id={item.item.id}
+                  icon={item.item.icon ? item.item.icon : 'shopping-basket-add'} //
                 />
               );
             }}></FlatList>

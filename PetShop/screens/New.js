@@ -22,6 +22,7 @@ class New extends Component {
   render() {
     const {carts, isFetching} = this.props.data;
     //console.log('a', this.props.data);
+    //console.log(carts);
     if (isFetching) {
       return <ActivityIndicator size="large" color="orange" />;
     } else
@@ -41,6 +42,7 @@ class New extends Component {
                   price={item.item.price}
                   discount={item.item.discount}
                   id={item.item.id}
+                  icon={item.item.icon ? item.item.icon : 'shopping-basket-add'} //
                 />
               );
             }}></FlatList>

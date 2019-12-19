@@ -6,29 +6,23 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getData} from '../data/petData';
 class Popular extends Component {
-  AddToCart() {
-    this.props.RemoveFromCart();
-    console.log('added');
-  }
-  RemoveFromCart() {
-    this.props.AddToCart();
-    console.log('removed');
-  }
   componentDidMount() {
     this.props.getData();
   }
   render() {
     //console.log('data', typeof this.state.DATA);
     const {carts, isFetching} = this.props.data;
-    //console.log('abc', this.props.data);
 
+    //console.log('abc', this.props.data);
     if (isFetching) {
       return <ActivityIndicator size="large" color="orange" />;
     } else
       return (
+        //console.log(typeof carts, carts), //
         <View style={styles.container}>
           <FlatList
-            data={carts.slice().sort((x, y) => y.count - x.count)}
+            //du lieu read only nen phai slice() truoc de copy
+            data={carts.sort((x, y) => y.count - x.count)}
             renderItem={item => {
               return (
                 <PetItem
@@ -41,6 +35,7 @@ class Popular extends Component {
                   price={item.item.price}
                   discount={item.item.discount}
                   id={item.item.id}
+                  icon={item.item.icon ? item.item.icon : 'shopping-basket-add'} //
                 />
               );
             }}></FlatList>
@@ -54,9 +49,9 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  //console.log('a', state);
+  //console.log('a', state.cartsData);
   return {
-    data: state.cartsData,
+    data: state.cartsData, //lang nghe tu cartsData(reducer fetchItem)
   };
 }
 

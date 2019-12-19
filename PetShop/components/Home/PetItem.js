@@ -8,7 +8,7 @@ class PetItem extends Component {
     super(props);
   }
   AddToCart(id) {
-    this.props.this.props.DispatchRemoveFromCart(id);
+    this.props.DispatchRemoveFromCart(id);
   }
   RemoveFromCart(id) {
     this.props.DispatchAddToCart(id);
@@ -17,7 +17,6 @@ class PetItem extends Component {
     return price - (price * discort) / 100;
   }
   render() {
-    //console.log('id1:', this.props.id);
     return (
       <TouchableOpacity
         style={styles.container}
@@ -30,6 +29,7 @@ class PetItem extends Component {
             name: this.props.name,
             info: this.props.info,
             id: this.props.id,
+            icon: this.props.icon,
             price:
               this.props.discount != null
                 ? this.getPrice(this.props.price, this.props.discount)
@@ -63,7 +63,7 @@ class PetItem extends Component {
           {this.props.discount != null ? null : (
             <Text
               numberOfLines={1}
-              ellipsizeMode="tail" //thong ttin cua tung item dau
+              ellipsizeMode="tail"
               style={{
                 fontFamily: 'Roboto-Regular',
                 fontWeight: 'bold',
@@ -102,7 +102,7 @@ class PetItem extends Component {
         </View>
         <TouchableOpacity
           onPress={() =>
-            this.props.cartsModify === 'shopping-basket-add'
+            this.props.icon === 'shopping-basket-add'
               ? this.AddToCart(this.props.id)
               : this.RemoveFromCart(this.props.id)
           }
@@ -112,19 +112,9 @@ class PetItem extends Component {
             alignSelf: 'center',
           }}>
           <Icon
-            name={
-              !!this.props.cartsModify
-                ? this.props.cartsModify
-                : 'shopping-basket-add'
-            }
+            name={this.props.icon}
             size={30}
-            color={
-              !!this.props.cartsModify
-                ? this.props.cartsModify === 'shopping-basket-add'
-                  ? 'black'
-                  : 'red'
-                : ' black'
-            }
+            color={this.props.icon === 'shopping-basket-add' ? 'black' : 'red'}
           />
         </TouchableOpacity>
       </TouchableOpacity>
@@ -166,14 +156,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    cartsModify: state.cartsModify.icon,
-  };
-};
+// const mapStateToProps = state => {
+//   return {
+//     cartsModify: state.cartsModify.icon,
+//     id: state.cartsModify.id,
+//   };
+// };
+
 const mapDispatchToProps = dispatch => ({
   DispatchAddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
   DispatchRemoveFromCart: id => dispatch({type: 'REMOVE_FROM_CART', id}),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(PetItem);
-//man hinh nay nek.ok
+
+export default connect(null, mapDispatchToProps)(PetItem); //mapStateToProps

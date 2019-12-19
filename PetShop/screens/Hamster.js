@@ -6,16 +6,8 @@ import {getData} from '../data/petData';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 class Hamster extends Component {
-  AddToCart() {
-    this.props.RemoveFromCart();
-    console.log('added');
-  }
-  RemoveFromCart() {
-    this.props.AddToCart();
-    console.log('removed');
-  }
   componentDidMount() {
-    this.props.getData();
+    //this.props.getData();
   }
   render() {
     const {carts, isFetching} = this.props.data;
@@ -41,6 +33,7 @@ class Hamster extends Component {
                   price={item.item.price}
                   discount={item.item.discount}
                   id={item.item.id}
+                  icon={item.item.icon ? item.item.icon : 'shopping-basket-add'} //
                 />
               );
             }}></FlatList>

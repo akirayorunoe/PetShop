@@ -20,13 +20,37 @@ export default function cartsReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: false,
-        carts: action.data,
+        carts: action.data, //
       };
     case FETCH_CARTS_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: true,
+      };
+    case 'ADD_TO_CART':
+      console.log(action);
+      return {
+        carts: state.carts.map(item => {
+          if (item.id === action.id)
+            return {
+              ...item,
+              icon: 'shopping-basket-add',
+            };
+          else return item;
+        }),
+      };
+    case 'REMOVE_FROM_CART':
+      console.log(action);
+      return {
+        carts: state.carts.map(item => {
+          if (item.id === action.id)
+            return {
+              ...item,
+              icon: 'shopping-basket-remove',
+            };
+          else return item;
+        }),
       };
     default:
       return state;

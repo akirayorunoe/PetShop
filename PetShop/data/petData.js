@@ -21,9 +21,7 @@ export const getData = () => {
           querySnapshot.forEach(function(doc) {
             // doc.data() is never undefined for query doc snapshots
             DATA.push(doc.data());
-            // resolve(doc.data())
           });
-          //console.log('DATA:', DATA);
           dispatch(getCartsSuccess(DATA));
           resolve(DATA);
         })
