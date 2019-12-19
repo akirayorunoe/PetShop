@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 class Search extends Component {
   componentDidMount() {
-    this.props.getData();
+    //this.props.getData();
   }
   state = {
     search: '',
