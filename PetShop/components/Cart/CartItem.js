@@ -8,72 +8,99 @@ import {
   Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-
-export default class CartItem extends Component {
+import {connect} from 'react-redux';
+import Swipeout from 'react-native-swipeout';
+class CartItem extends Component {
   constructor(props) {
     super(props);
   }
   getPrice(price, discort) {
     return price - (price * discort) / 100;
   }
+  state = {
+    value: this.props.value,
+  };
+  decrease() {
+    if (this.state.value <= 1) {
+      this.setState({value: 1});
+      return;
+    }
+    this.setState({value: parseInt(this.state.value) - 1});
+    const item = {
+      id: this.props.id,
+      value: this.state.value,
+    };
+    console.log(item.value);
+    this.props.DispatchUpdateItemToCart(item);
+  }
+  increase() {
+    this.setState({value: parseInt(this.state.value) + 1});
+    const item = {
+      id: this.props.id,
+      value: this.state.value,
+    };
+    console.log(item.value);
+    this.props.DispatchUpdateItemToCart(item);
+  }
+  delete() {
+    const item = {
+      source1: this.props.source1,
+      source2: this.props.source2,
+      source3: this.props.source3,
+      name: this.props.name,
+      info: this.props.info,
+      price: this.props.price,
+      id: this.props.id,
+      //value: this.state.value,
+    };
+    this.props.DispatchRemoveItemFromCart(item);
+    this.props.DispatchAddToCart(item.id);
+  }
   render() {
+    const swipeoutSetting = {
+      autoClose: true,
+      backgroundColor: 'transparent',
+      buttonWidth: 100,
+      // onOpen: (sectionID, rowId, direction) => {},
+      // onClose: (sectionID, rowId, direction) => {},
+      right: [
+        {
+          onPress: () => {
+            this.delete();
+          },
+          text: 'Delete',
+          type: 'delete',
+          backgroundColor: 'tomato',
+        },
+      ],
+    };
     return (
-      <TouchableOpacity
-        style={styles.container}
-        style={styles.container}
-        onPress={() => {
-          this.props.navigation.navigate('Pet', {
-            //add param to Pet page
-            img1: this.props.source1,
-            img2: this.props.source2,
-            img3: this.props.source3,
-            name: this.props.name,
-            info: this.props.info,
-            price:
-              this.props.discount != null
-                ? this.getPrice(this.props.price, this.props.discount)
-                : this.props.price,
-          });
-        }}>
-        <Image source={{uri: this.props.source1}} style={styles.img}></Image>
-        {/* */}
-        <View style={styles.textcontent}>
-          <Text
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={{
-              fontFamily: 'Roboto-Regular',
-              fontWeight: 'bold',
-              fontSize: 20,
-              color: '#420000',
-            }}>
-            {this.props.name}
-          </Text>
-          <Text
-            numberOfLines={2}
-            ellipsizeMode="tail"
-            style={{
-              fontFamily: 'Roboto-Regular',
-              fontSize: 15,
-              color: '#420000',
-            }}>
-            {this.props.info}
-          </Text>
-          {this.props.discount != null ? null : (
+      <Swipeout {...swipeoutSetting}>
+        <View style={styles.container}>
+          <Image source={{uri: this.props.source1}} style={styles.img}></Image>
+          <View style={styles.textcontent}>
             <Text
               numberOfLines={1}
               ellipsizeMode="tail"
               style={{
                 fontFamily: 'Roboto-Regular',
                 fontWeight: 'bold',
+                fontSize: 20,
+                color: '#420000',
+              }}>
+              {this.props.name}
+            </Text>
+            <Text
+              numberOfLines={2}
+              ellipsizeMode="tail"
+              style={{
+                fontFamily: 'Roboto-Regular',
                 fontSize: 15,
                 color: '#420000',
               }}>
-              $ {this.props.price}
+              {this.props.info}
             </Text>
-          )}
-          {this.props.discount != null ? (
-            <View style={styles.horizonText}>
+            {this.props.discount != null ? null : (
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
@@ -83,43 +110,71 @@ export default class CartItem extends Component {
                   fontSize: 15,
                   color: '#420000',
                 }}>
-                $ {this.getPrice(this.props.price, this.props.discount)}
+                $ {this.props.price}
               </Text>
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{
-                  fontFamily: 'Roboto-Regular',
-                  fontWeight: 'bold',
-                  fontSize: 15,
-                  color: 'tomato',
-                }}>
-                {this.props.discount}% OFF
-              </Text>
-            </View>
-          ) : null}
-        </View>
-        <View style={styles.cartModi}>
-          <TouchableOpacity style={styles.icon}>
-            <Icon name="minus" size={30} color="black" />
-          </TouchableOpacity>
-          <View
-            style={{
-              backgroundColor: 'white',
-              height: 42,
-              alignSelf: 'center',
-            }}>
-            <TextInput
-              maxLength={2}
-              keyboardType="numeric"
-              textContentType="telephoneNumber"
-            />
+            )}
+            {this.props.discount != null ? (
+              <View style={styles.horizonText}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={{
+                    fontFamily: 'Roboto-Regular',
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    color: '#420000',
+                  }}>
+                  $ {this.getPrice(this.props.price, this.props.discount)}
+                </Text>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={{
+                    fontFamily: 'Roboto-Regular',
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    color: 'tomato',
+                  }}>
+                  {this.props.discount}% OFF
+                </Text>
+              </View>
+            ) : null}
           </View>
-          <TouchableOpacity style={styles.icon}>
-            <Icon name="plus" size={30} color="black" />
-          </TouchableOpacity>
+          <View style={styles.cartModi}>
+            <TouchableOpacity
+              style={styles.icon}
+              onPress={() => this.decrease()}>
+              <Icon name="minus" size={30} color="black" />
+            </TouchableOpacity>
+            <View
+              style={{
+                backgroundColor: 'white',
+                height: 42,
+                alignSelf: 'center',
+              }}>
+              <TextInput
+                onEndEditing={() => {
+                  this.state.value === '' || this.state.value <= 0
+                    ? this.setState({value: 1})
+                    : this.state.value;
+                }}
+                value={this.state.value.toString()}
+                onChangeText={value => {
+                  this.setState({value});
+                }}
+                maxLength={2}
+                keyboardType="numeric"
+                textContentType="telephoneNumber"
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.icon}
+              onPress={() => this.increase()}>
+              <Icon name="plus" size={30} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </TouchableOpacity>
+      </Swipeout>
     );
   }
 }
@@ -161,3 +216,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
 });
+const mapDispatchToProps = dispatch => ({
+  DispatchAddItemToCart: item => dispatch({type: 'ADD_ITEM_TO_CART', item}),
+  DispatchUpdateItemToCart: item =>
+    dispatch({type: 'UPDATE_ITEM_TO_CART', item}),
+  DispatchAddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
+  DispatchRemoveItemFromCart: item =>
+    dispatch({type: 'REMOVE_ITEM_FROM_CART', item}),
+});
+export default connect(null, mapDispatchToProps)(CartItem);

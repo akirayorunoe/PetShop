@@ -1,37 +1,23 @@
-import {
-  FETCH_CARTS_SUCCESS, //
-} from '../actions';
-
-const initialState = {
-  //
-  carts: [],
-  icon: 'shopping-basket-add',
-};
-
-export default function(state = initialState, action) {
+export default function(state = [], action) {
   //
   switch (action.type) {
-    case FETCH_CARTS_SUCCESS: //
-      state = {
-        ...state,
-        carts: action.data,
-      }; //
-      break; //
-    case 'ADD_TO_CART':
-      console.log(action, 'add');
-      return {
-        ...state,
-        icon: 'shopping-basket-add',
-        id: action.id,
-      };
+    case 'ADD_ITEM_TO_CART':
+      //console.log(action);
+      action.item.value = 1;
+      //console.log(action.item);
+      return [...state, action.item];
 
-    case 'REMOVE_FROM_CART':
-      console.log(action.id, 'remove');
-      return {
-        ...state,
-        icon: 'shopping-basket-remove',
-        id: action.id,
-      };
+    case 'REMOVE_ITEM_FROM_CART':
+      return state.filter(i => i.id !== action.item.id);
+
+    case 'UPDATE_ITEM_TO_CART':
+      //console.log('a', action, state);
+      for (let i of state) {
+        if (i.id === action.item.id) {
+          i.value = action.item.value;
+          return [...state];
+        }
+      }
   }
   return state;
 }

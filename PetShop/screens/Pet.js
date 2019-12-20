@@ -60,15 +60,69 @@ class Pet extends Component {
   _renderItem({item, index}) {
     return <Image source={{uri: item.img}} style={styles.image} />;
   }
-  AddToCart(id) {
-    this.props.RemoveFromCart(id);
+  AddToCart(prop) {
+    const item = {
+      source1: JSON.stringify(this.props.navigation.getParam('img1')).replace(
+        /\"/g,
+        '',
+      ),
+      source2: JSON.stringify(this.props.navigation.getParam('img2')).replace(
+        /\"/g,
+        '',
+      ),
+      source3: JSON.stringify(this.props.navigation.getParam('img3')).replace(
+        /\"/g,
+        '',
+      ),
+      name: JSON.stringify(this.props.navigation.getParam('name')).replace(
+        /\"/g,
+        '',
+      ),
+      info: JSON.stringify(this.props.navigation.getParam('info')).replace(
+        /\"/g,
+        '',
+      ),
+      id: prop.getParam('id'),
+      price: JSON.stringify(this.props.navigation.getParam('price')).replace(
+        /\"/g,
+        '',
+      ),
+    };
+    this.props.RemoveFromCart(prop.getParam('id'));
     this.setState({icon: 'shopping-basket-remove'});
-    console.log(id, 'added');
+    this.props.DispatchAddItemToCart(item);
   }
-  RemoveFromCart(id) {
-    this.props.AddToCart(id);
+  RemoveFromCart(prop) {
+    const item = {
+      source1: JSON.stringify(this.props.navigation.getParam('img1')).replace(
+        /\"/g,
+        '',
+      ),
+      source2: JSON.stringify(this.props.navigation.getParam('img2')).replace(
+        /\"/g,
+        '',
+      ),
+      source3: JSON.stringify(this.props.navigation.getParam('img3')).replace(
+        /\"/g,
+        '',
+      ),
+      name: JSON.stringify(this.props.navigation.getParam('name')).replace(
+        /\"/g,
+        '',
+      ),
+      info: JSON.stringify(this.props.navigation.getParam('info')).replace(
+        /\"/g,
+        '',
+      ),
+      id: prop.getParam('id'),
+      price: JSON.stringify(this.props.navigation.getParam('price')).replace(
+        /\"/g,
+        '',
+      ),
+    };
+    this.props.AddToCart(prop.getParam('id'));
     this.setState({icon: 'shopping-basket-add'});
-    console.log(id, 'removed');
+    this.props.DispatchRemoveItemFromCart(item);
   }
   render() {
     //param tu screen khac gui qua duoi dang json
@@ -84,6 +138,10 @@ class Pet extends Component {
             )}
           </Text>
           <Carousel
+            autoplayDelay={0}
+            enableSnap={true}
+            loop={true}
+            autoplay={true}
             ref={c => {
               this._carousel = c;
             }}
@@ -97,8 +155,8 @@ class Pet extends Component {
           <TouchableOpacity
             onPress={() =>
               this.state.icon === 'shopping-basket-add'
-                ? this.AddToCart(this.props.navigation.getParam('id'))
-                : this.RemoveFromCart(this.props.navigation.getParam('id'))
+                ? this.AddToCart(this.props.navigation) //.getParam('id')
+                : this.RemoveFromCart(this.props.navigation)
             }
             style={{alignSelf: 'flex-end', top: -50, marginRight: 30}}>
             <View
@@ -146,6 +204,7 @@ const styles = StyleSheet.create({
     color: '#420000',
     fontWeight: 'bold',
     alignSelf: 'center',
+    marginBottom: 10,
   },
   image: {
     width: Dimensions.get('window').width,
@@ -178,5 +237,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => ({
   AddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
   RemoveFromCart: id => dispatch({type: 'REMOVE_FROM_CART', id}),
+  DispatchAddItemToCart: item => dispatch({type: 'ADD_ITEM_TO_CART', item}),
+  DispatchRemoveItemFromCart: item =>
+    dispatch({type: 'REMOVE_ITEM_FROM_CART', item}),
 });
 export default connect(null, mapDispatchToProps)(Pet);

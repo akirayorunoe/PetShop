@@ -7,11 +7,37 @@ class PetItem extends Component {
   constructor(props) {
     super(props);
   }
-  AddToCart(id) {
-    this.props.DispatchRemoveFromCart(id);
+  AddToCart(prop) {
+    const item = {
+      source1: prop.source1,
+      source2: prop.source2,
+      source3: prop.source3,
+      name: prop.name,
+      info: prop.info,
+      id: prop.id,
+      price:
+        prop.discount != null
+          ? this.getPrice(prop.price, prop.discount)
+          : prop.price,
+    };
+    this.props.DispatchRemoveFromCart(prop.id); //icon thanh remove
+    this.props.DispatchAddItemToCart(item);
   }
-  RemoveFromCart(id) {
-    this.props.DispatchAddToCart(id);
+  RemoveFromCart(prop) {
+    const item = {
+      source1: prop.source1,
+      source2: prop.source2,
+      source3: prop.source3,
+      name: prop.name,
+      info: prop.info,
+      id: prop.id,
+      price:
+        prop.discount != null
+          ? this.getPrice(prop.price, prop.discount)
+          : prop.price,
+    };
+    this.props.DispatchAddToCart(prop.id); //icon thanh add
+    this.props.DispatchRemoveItemFromCart(item);
   }
   getPrice(price, discort) {
     return price - (price * discort) / 100;
@@ -103,8 +129,8 @@ class PetItem extends Component {
         <TouchableOpacity
           onPress={() =>
             this.props.icon === 'shopping-basket-add'
-              ? this.AddToCart(this.props.id)
-              : this.RemoveFromCart(this.props.id)
+              ? this.AddToCart(this.props)
+              : this.RemoveFromCart(this.props)
           }
           style={{
             flex: 1,
@@ -166,6 +192,9 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => ({
   DispatchAddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
   DispatchRemoveFromCart: id => dispatch({type: 'REMOVE_FROM_CART', id}),
+  DispatchAddItemToCart: item => dispatch({type: 'ADD_ITEM_TO_CART', item}),
+  DispatchRemoveItemFromCart: item =>
+    dispatch({type: 'REMOVE_ITEM_FROM_CART', item}),
 });
 
 export default connect(null, mapDispatchToProps)(PetItem); //mapStateToProps

@@ -166,29 +166,6 @@ export default class Login extends Component {
                         setText="Sign up"
                         onPress={() => this.props.navigation.navigate('SignUp')}
                       />
-                      {/* <Text
-                        style={{
-                          marginTop: 40,
-                          textAlign: 'center',
-                          fontFamily: 'LobsterTwo-Regular',
-                        }}>
-                        Or with other social account
-                      </Text>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-around',
-                          marginTop: 35,
-                        }}>
-                        <TouchableOpacity>
-                          <Image
-                            source={require('../assets/imgs/Facebook.png')}></Image>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.googlelogin()}>
-                          <Image
-                            source={require('../assets/imgs/Google.png')}></Image>
-                        </TouchableOpacity> 
-                      </View>*/}
                     </View>
                   </View>
                 </View>

@@ -44,17 +44,6 @@ export default class SignUp extends Component {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.Email, this.state.Password)
-        // .then(authData => {
-        // let account = {};
-        // account.email = this.state.Email;
-        // account.uid = authData.user.uid;
-        // account.username = this.state.Name;
-        // firebase
-        //   .database()
-        //   .ref('users/' + authData.user.uid)
-        //   .set({
-        //     account,
-        //   });
         .then(() => {
           var userf = firebase.auth().currentUser;
           userf.updateProfile({displayName: this.state.Name});
@@ -147,29 +136,6 @@ export default class SignUp extends Component {
                     * {this.state.errSignUp}
                   </Text>
                 )}
-                {/* <Text
-                  style={{
-                    marginTop: 50,
-                    textAlign: 'center',
-                    fontFamily: 'LobsterTwo-Regular',
-                  }}>
-                  Or with other social account
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    marginTop: 35,
-                  }}>
-                  <TouchableOpacity>
-                    <Image
-                      source={require('../assets/imgs/Facebook.png')}></Image>
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Image
-                      source={require('../assets/imgs/Google.png')}></Image>
-                  </TouchableOpacity>
-                </View> */}
               </View>
             </View>
           </View>

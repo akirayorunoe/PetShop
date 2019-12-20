@@ -29,7 +29,7 @@ export default function cartsReducer(state = initialState, action) {
         error: true,
       };
     case 'ADD_TO_CART':
-      console.log(action);
+      //console.log(action);
       return {
         carts: state.carts.map(item => {
           if (item.id === action.id)
@@ -41,7 +41,7 @@ export default function cartsReducer(state = initialState, action) {
         }),
       };
     case 'REMOVE_FROM_CART':
-      console.log(action);
+      //console.log(action);
       return {
         carts: state.carts.map(item => {
           if (item.id === action.id)
