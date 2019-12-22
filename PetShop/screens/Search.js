@@ -27,14 +27,19 @@ class Search extends Component {
         ? item.name.toUpperCase()
         : ''.toUpperCase();
       const textData = text.toUpperCase();
-      //tìm theo info
+      //tìm theo (info)
       const itemDataInfo = item.info
         ? item.info.toUpperCase()
         : ''.toUpperCase();
+         //tìm theo type
+      const itemDataType = item.type
+      ? item.type.toUpperCase()
+      : ''.toUpperCase();
       //Tìm trong string itemDataName có chuỗi text không
       return (
         itemDataName.indexOf(textData) > -1 ||
-        itemDataInfo.indexOf(textData) > -1
+        itemDataInfo.indexOf(textData) > -1 ||
+        itemDataType.indexOf(textData) >-1
       );
     });
     this.setState({

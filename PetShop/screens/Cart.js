@@ -18,7 +18,6 @@ class Cart extends Component {
     loading: false,
   };
   checkOut() {
-    this.setState({loading: true});
     if (this.props.carts.length === 0) {
       Alert.alert(
         'No pet in your cart',
@@ -35,6 +34,7 @@ class Cart extends Component {
               s += parseInt(i.value);
             }
             if (this.props.carts.length != 0) {
+              this.setState({loading: true});
               let getBuy = 0;
               firebase
                 .database()
