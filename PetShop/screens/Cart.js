@@ -35,11 +35,21 @@ class Cart extends Component {
               s += parseInt(i.value);
             }
             if (this.props.carts.length != 0) {
-              //add item mua
+              let getBuy = 0;
               firebase
                 .database()
                 .ref('buying/' + user.uid)
-                .update({buy: s}) //obj thuần
+                .on('value', snapshot => {
+                  if (snapshot.val() != null) {
+                    let buy = snapshot.val().buy;
+                    if (buy != null) getBuy = buy;
+                  }
+                });
+              //add item mua vai database***
+              firebase
+                .database()
+                .ref('buying/' + user.uid)
+                .update({buy: getBuy + s}) //obj thuần
                 .then(data => {
                   for (let i of this.props.carts) {
                     const item = {
@@ -55,13 +65,13 @@ class Cart extends Component {
                       .get()
                       .then(function(querySnapshot) {
                         querySnapshot.forEach(function(doc) {
-                          console.log(doc.id);
+                          let prevCount = doc.data().count;
                           // Build doc ref from doc.id
                           firebase
                             .firestore()
                             .collection('pets')
                             .doc(doc.id)
-                            .update({count: i.value});
+                            .update({count: prevCount + i.value});
                         });
                       })
                       .then(this.setState({loading: false}));

@@ -128,6 +128,7 @@ export default class User extends Component {
     .on('value', snapshot => {
       if (snapshot.val() != null) {
         let buy = snapshot.val().buy;
+        if(buy !=null)
         this.setState({buyItem: buy});
       }
     });
