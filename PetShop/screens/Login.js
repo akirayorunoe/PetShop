@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Image,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';

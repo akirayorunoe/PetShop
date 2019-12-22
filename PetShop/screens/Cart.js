@@ -1,14 +1,101 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, ScrollView, FlatList} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  FlatList,
+  Alert,
+  ToastAndroid,
+} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Header from '../components/Home/Header';
 import Button from '../components/Form/Button';
 import {connect} from 'react-redux';
 import CartItem from '../components/Cart/CartItem';
+import firebase from '../fb';
 class Cart extends Component {
-  checkOut() {}
+  state = {
+    loading: false,
+  };
+  checkOut() {
+    this.setState({loading: true});
+    if (this.props.carts.length === 0) {
+      Alert.alert(
+        'No pet in your cart',
+        'Try to add some cute pets to your cart <3',
+      );
+      return;
+    } else if (
+      firebase.auth().onAuthStateChanged(
+        function(user) {
+          if (user) {
+            // User is signed in.
+            let s = 0;
+            for (let i of this.props.carts) {
+              s += parseInt(i.value);
+            }
+            if (this.props.carts.length != 0) {
+              //add item mua
+              firebase
+                .database()
+                .ref('buying/' + user.uid)
+                .update({buy: s}) //obj thuần
+                .then(data => {
+                  for (let i of this.props.carts) {
+                    const item = {
+                      id: i.id,
+                    };
+                    this.props.DispatchRemoveItemFromCart(item);
+                    this.props.DispatchAddToCart(item.id);
+                    //update collection
+                    firebase
+                      .firestore()
+                      .collection('pets')
+                      .where('id', '==', i.id)
+                      .get()
+                      .then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                          console.log(doc.id);
+                          // Build doc ref from doc.id
+                          firebase
+                            .firestore()
+                            .collection('pets')
+                            .doc(doc.id)
+                            .update({count: i.value});
+                        });
+                      })
+                      .then(this.setState({loading: false}));
+
+                    ToastAndroid.showWithGravity(
+                      'Buy success!',
+                      ToastAndroid.SHORT, //can be SHORT, LONG
+                      ToastAndroid.CENTER, //can be TOP, BOTTON, CENTER
+                    );
+                  }
+                })
+                .catch(error => {
+                  //error callback
+                  console.log('error ', error);
+                });
+            }
+          } else {
+            this.props.navigation.navigate('Login');
+          }
+        }.bind(this),
+      )
+    );
+  }
   render() {
     return (
       <View style={styles.container}>
+        <Spinner
+          //visibility of Overlay Loading Spinner
+          visible={this.state.loading}
+          //Text with the Spinner
+          textContent={'Adding to your database...'}
+          //Text style of the Spinner Text
+          textStyle={styles.spinnerTextStyle}
+        />
         <ScrollView style={{flex: 1}}>
           <Header setText="YOUR CART" />
           <FlatList
@@ -36,7 +123,7 @@ class Cart extends Component {
             marginBottom: 10,
             backgroundColor: 'transparent',
           }}>
-          <Button setText="Check out" />
+          <Button setText="Check out" onPress={() => this.checkOut()} />
         </View>
       </View>
     );
@@ -53,4 +140,9 @@ function mapStateToProps(state) {
     carts: state.cartsReducer, //lang nghe tu cartsData(reducer fetchItem)
   };
 }
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = dispatch => ({
+  DispatchAddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
+  DispatchRemoveItemFromCart: item =>
+    dispatch({type: 'REMOVE_ITEM_FROM_CART', item}),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

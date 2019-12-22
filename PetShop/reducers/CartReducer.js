@@ -11,10 +11,10 @@ export default function(state = [], action) {
       return state.filter(i => i.id !== action.item.id);
 
     case 'UPDATE_ITEM_TO_CART':
-      //console.log('a', action, state);
       for (let i of state) {
         if (i.id === action.item.id) {
           i.value = action.item.value;
+          //console.log('a', action, state);
           return [...state];
         }
       }

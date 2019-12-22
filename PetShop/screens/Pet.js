@@ -229,11 +229,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// const mapStateToProps = state => {
-//   return {
-//     cartsModify: state.cartsModify.icon,
-//   };
-// };
 const mapDispatchToProps = dispatch => ({
   AddToCart: id => dispatch({type: 'ADD_TO_CART', id}),
   RemoveFromCart: id => dispatch({type: 'REMOVE_FROM_CART', id}),

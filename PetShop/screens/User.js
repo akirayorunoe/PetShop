@@ -29,6 +29,7 @@ export default class User extends Component {
     temp: '',
     uName: '',
     uAddress: '',
+    buyItem: 0,
     uEmail: '',
     uPhotoUrl: null,
     onEdit: false,
@@ -77,20 +78,14 @@ export default class User extends Component {
   imgChoose = () => {
     ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
-        //console.log('User cancelled image picker');
-        //this.setState({loading: false});
       } else if (response.error) {
-        //console.log('ImagePicker Error: ', response.error);
-        //this.setState({loading: false});
       } else if (response.customButton) {
-        //console.log('User tapped custom button: ', response.customButton);
       } else {
         this.setState({loading: true});
-        //uploadToFirebase().then(snapshot)
         const user = firebase.auth().currentUser;
         const source = response;
         this.setState({
-          uPhotoUrl: source.uri, //
+          uPhotoUrl: source.uri, 
         });
         this.uriToBlob(response.uri)
           .then(blob => {
@@ -114,11 +109,9 @@ export default class User extends Component {
     });
   };
   componentDidMount() {
-    //console.log('123');
     let user = firebase.auth().currentUser;
     //Để name, profile load cùng lúc
     user.reload();
-    // let id = user.uid; //user ID
     firebase
       .database()
       .ref('address/' + user.uid)
@@ -128,6 +121,16 @@ export default class User extends Component {
           this.setState({uAddress: address});
         }
       });
+    //pending item
+    firebase
+    .database()
+    .ref('buying/' + user.uid)
+    .on('value', snapshot => {
+      if (snapshot.val() != null) {
+        let buy = snapshot.val().buy;
+        this.setState({buyItem: buy});
+      }
+    });
     //Để name, profile load cùng lúc
     user.reload().then(() => {
       const refreshUser = firebase.auth().currentUser;
@@ -304,7 +307,7 @@ export default class User extends Component {
               </View>
             ) : (
               <View>
-                <EditBox header="MY ORDER" value={<Text>x pending</Text>} />
+                <EditBox header="MY ORDER" value={<Text>{this.state.buyItem} pending</Text>} />
                 <EditBox
                   header="EMAIL"
                   value={<Text>{this.state.uEmail}</Text>}

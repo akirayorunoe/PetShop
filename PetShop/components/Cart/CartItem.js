@@ -22,25 +22,44 @@ class CartItem extends Component {
   };
   decrease() {
     if (this.state.value <= 1) {
-      this.setState({value: 1});
+      this.setState({value: 1}, () => {
+        const item = {
+          id: this.props.id,
+          value: this.state.value,
+        };
+        //console.log('decrease', item.value, this.state.value);
+        this.props.DispatchUpdateItemToCart(item);
+      });
       return;
     }
-    this.setState({value: parseInt(this.state.value) - 1});
-    const item = {
-      id: this.props.id,
-      value: this.state.value,
-    };
-    console.log(item.value);
-    this.props.DispatchUpdateItemToCart(item);
+    this.setState({value: parseInt(this.state.value) - 1}, () => {
+      const item = {
+        id: this.props.id,
+        value: parseInt(this.state.value), //- 1
+      };
+      // console.log(
+      //   'decrease',
+      //   item.value,
+      //   this.state.value,
+      //   parseInt(this.state.value) - 1,
+      // );
+      this.props.DispatchUpdateItemToCart(item);
+    });
   }
   increase() {
-    this.setState({value: parseInt(this.state.value) + 1});
-    const item = {
-      id: this.props.id,
-      value: this.state.value,
-    };
-    console.log(item.value);
-    this.props.DispatchUpdateItemToCart(item);
+    this.setState({value: parseInt(this.state.value) + 1}, () => {
+      const item = {
+        id: this.props.id,
+        value: parseInt(this.state.value), //+ 1
+      };
+      // console.log(
+      //   'increase',
+      //   item.value,
+      //   this.state.value,
+      //   parseInt(this.state.value) + 1,
+      // );
+      this.props.DispatchUpdateItemToCart(item);
+    });
   }
   delete() {
     const item = {
@@ -53,6 +72,7 @@ class CartItem extends Component {
       id: this.props.id,
       //value: this.state.value,
     };
+
     this.props.DispatchRemoveItemFromCart(item);
     this.props.DispatchAddToCart(item.id);
   }
@@ -154,9 +174,30 @@ class CartItem extends Component {
               }}>
               <TextInput
                 onEndEditing={() => {
-                  this.state.value === '' || this.state.value <= 0
-                    ? this.setState({value: 1})
-                    : this.state.value;
+                  this.state.value === '' ||
+                  this.state.value <= 0 ||
+                  parseInt(this.state.value) === NaN
+                    ? this.setState({value: 1}, () => {
+                        const item = {
+                          id: this.props.id,
+                          value: this.state.value,
+                        };
+                        //console.log('update1', item.value, this.state.value);
+                        this.props.DispatchUpdateItemToCart(item);
+                      })
+                    : this.setState({value: this.state.value}, () => {
+                        const item = {
+                          id: this.props.id,
+                          value: parseInt(this.state.value),
+                        };
+                        //console.log(
+                        //   'update2',
+                        //   item.value,
+                        //   this.state.value,
+                        //   parseInt(this.state.value),
+                        // );
+                        this.props.DispatchUpdateItemToCart(item);
+                      });
                 }}
                 value={this.state.value.toString()}
                 onChangeText={value => {
